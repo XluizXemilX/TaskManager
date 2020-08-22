@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "446990187185",
+    "firebase_url": "https://choresapp-658eb.firebaseio.com",
+    "project_id": "choresapp-658eb",
+    "storage_bucket": "choresapp-658eb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:446990187185:android:2cf5573d267ec856f34090",
+        "android_client_info": {
+          "package_name": "com.example.taskmanager"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "446990187185-as78c73812raachf2keq8gcgs2grf136.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDtFNm0JPB5KCoXibSQ40LYHTIvz1VUDPw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "446990187185-as78c73812raachf2keq8gcgs2grf136.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">TaskManager</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="firstName">FIRST NAME</string>
+    <string name="lastName">LAST NAME</string>
+    <string name="email">EMAIL</string>
+    <string name="password">PASSWORD</string>
+    <string name="dob">MM/DD/YYYY</string>
+    <string name="open">open</string>
+    <string name="close">close</string>
+</resources>
