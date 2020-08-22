@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/parent_jobs"
+        android:icon="@drawable/ic_jobs"
+        android:title="Jobs"/>
+
+    <item
+        android:id="@+id/parent_chores"
+        android:icon="@drawable/ic_chores"
+        android:title="Chores"/>
+
+    <item
+        android:id="@+id/parent_chat"
+        android:icon="@drawable/ic_chat"
+        android:title="Chat"/>
+
+    <item
+        android:id="@+id/parent_report"
+        android:icon="@drawable/ic_report"
+        android:title="Report"/>
+
+    <item
+        android:id="@+id/parent_wallet"
+        android:icon="@drawable/ic_wallet"
+        android:title="Wallet"/>
+</menu>

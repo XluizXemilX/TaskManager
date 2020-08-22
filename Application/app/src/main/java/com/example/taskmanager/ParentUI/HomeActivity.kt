@@ -10,16 +10,13 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import com.example.taskmanager.CreateHouseActivity
-import com.example.taskmanager.MenuDrawer.BankAccountActivity
-import com.example.taskmanager.MenuDrawer.ProfileActivity
-import com.example.taskmanager.MenuDrawer.SwitchAccountsActivity
+import com.example.taskmanager.ParentMenuDrawer.BankAccountActivity
+import com.example.taskmanager.ParentMenuDrawer.ProfileActivity
+import com.example.taskmanager.SwitchAccountsActivity
 import com.example.taskmanager.R
 import com.example.taskmanager.SplashScreen
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.android.synthetic.main.activity_home.*
-import kotlinx.android.synthetic.main.content_main.*
 
 
 class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener{
@@ -43,6 +40,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         )
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
+        navView.inflateMenu(R.menu.drawer_view)
         navView.setNavigationItemSelectedListener(this)
     }
 

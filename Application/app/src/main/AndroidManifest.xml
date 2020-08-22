@@ -9,18 +9,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MenuDrawer.SwitchAccountsActivity"></activity>
-        <activity android:name=".MenuDrawer.SettingsActivity" />
-        <activity android:name=".MenuDrawer.BankAccountActivity" />
-        <activity android:name=".MenuDrawer.ProfileActivity" />
+        <activity android:name=".ChildMenuDrawer.ChildProfileActivity"></activity>
+        <activity android:name=".ChildMenuDrawer.ChildSettingActivity" />
+        <activity android:name=".SwitchAccountsActivity" />
+        <activity android:name=".ParentMenuDrawer.SettingsActivity" />
+        <activity android:name=".ParentMenuDrawer.BankAccountActivity" />
+        <activity android:name=".ParentMenuDrawer.ProfileActivity" />
         <activity android:name=".CreateHouseActivity" />
         <activity android:name=".LoginActivity" />
-        <activity android:name=".ChildUI.HomeChildActivity" />
-        <activity android:name=".MainLoginActivity" />
         <activity android:name=".SplashScreen" />
+        <activity android:name=".MainLoginActivity" />
+        <activity android:name=".ParentUI.HomeActivity" />
         <activity android:name=".RegisterActivity" />
         <activity
-            android:name=".ParentUI.HomeActivity"
+            android:name=".ChildUI.HomeChildActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.activity_register.*
 class RegisterActivity : AppCompatActivity() {
     private lateinit var mAuth: FirebaseAuth
     private lateinit var refUsers: DatabaseReference
-    private var firebaseUserId: String = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
@@ -66,11 +66,12 @@ class RegisterActivity : AppCompatActivity() {
                         userHashMap["password"] = password
                         userHashMap["dob"] = dob
                         userHashMap["houseName"] = ""
-                        userHashMap["housePassword"] =""
+                        userHashMap["sharePassword"] =""
                         userHashMap["profile"] = ""
                         userHashMap["cover"] = ""
                         userHashMap["status"] = "offline"
                         userHashMap["type"] = "Parent"
+                        userHashMap["pin"] = ""
                         userHashMap["search"] = email.toLowerCase()
                         userHashMap["facebook"] = "https://m.facebook.com"
                         userHashMap["website"] = "https://www.google.com"

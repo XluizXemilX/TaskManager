@@ -4,12 +4,8 @@ import java.io.Serializable;
 
 public class User implements Serializable {
     private String firebaseUserId;
-    private House House;
     private String firstName;
-    private String lastName;
-    private String email;
-    private String password;
-    private String dob;
+    private Integer pin;
     private String type;
 
     public String getFirstName(){
@@ -18,5 +14,29 @@ public class User implements Serializable {
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
+    }
+
+    public Integer getPin() {
+        return pin;
+    }
+
+    public void setPin(Integer pin) {
+        this.pin = pin;
+    }
+
+    public String getFirebaseUserId() {
+        return firebaseUserId;
+    }
+
+    public void setFirebaseUserId(String firebaseUserId) {
+        this.firebaseUserId = firebaseUserId;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

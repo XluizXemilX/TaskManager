@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navegation_view">
+
+    <group>
+        <item android:id="@+id/child_nav_profile"
+            android:title="Profile"/>
+        <item android:id="@+id/child_nav_settings"
+            android:title="Settings"/>
+        <item android:id="@+id/child_nav_switch_account"
+            android:title="Switch Profile"/>
+        <item android:id="@+id/child_nav_logout"
+            android:title="Logout"/>
+    </group>
+</menu>
