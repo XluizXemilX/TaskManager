@@ -4,7 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
-import com.example.taskmanager.ParentUI.HomeActivity
+import com.example.taskmanager.classes.SharedPrefsUtil
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.activity_register.*
 class RegisterActivity : AppCompatActivity() {
     private lateinit var mAuth: FirebaseAuth
     private lateinit var refUsers: DatabaseReference
-
+    private var firebaseUserId: String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
@@ -55,34 +55,24 @@ class RegisterActivity : AppCompatActivity() {
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         firebaseUserId = mAuth.currentUser!!.uid
-                        refUsers = FirebaseDatabase.getInstance().reference.child("House").child("Users")
-                            .child(firebaseUserId)
+                        refUsers = FirebaseDatabase.getInstance().reference.child("account").child(firebaseUserId)
 
                         val userHashMap = HashMap<String, Any>()  // holds user data
-                        userHashMap["uid"] = firebaseUserId
+                        userHashMap["user"] = firstName + "_" +firebaseUserId
                         userHashMap["firstname"] = firstName
                         userHashMap["lastname"] = lastName
                         userHashMap["email"] = email
                         userHashMap["password"] = password
                         userHashMap["dob"] = dob
-                        userHashMap["houseName"] = ""
-                        userHashMap["sharePassword"] =""
-                        userHashMap["profile"] = ""
-                        userHashMap["cover"] = ""
-                        userHashMap["status"] = "offline"
-                        userHashMap["type"] = "Parent"
-                        userHashMap["pin"] = ""
-                        userHashMap["search"] = email.toLowerCase()
-                        userHashMap["facebook"] = "https://m.facebook.com"
-                        userHashMap["website"] = "https://www.google.com"
 
+                        SharedPrefsUtil.getInstance(this).put("accountId", firebaseUserId)
                         refUsers.updateChildren(userHashMap)
                             .addOnCompleteListener { task ->
                                 if (task.isSuccessful) {
                                     val intent =
-                                        Intent(this@RegisterActivity, CreateHouseActivity::class.java) // send user to create a house if task is completed
+                                        Intent(this@RegisterActivity, AccountActivity::class.java) // send user to create a house if task is completed
                                     startActivity(intent)
-                                    finish()
+
                                 }
                                 else{
 

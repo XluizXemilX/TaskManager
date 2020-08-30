@@ -15,11 +15,11 @@
         layout="@layout/content_main"/>
 
     <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_viewChild"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:id="@+id/nav_viewChild"
-        android:background="#ffffff"
+        android:background="@color/colorWhiteBackground"
         android:fitsSystemWindows="true">
         <!--app:menu="@menu/drawer_view" -->
 

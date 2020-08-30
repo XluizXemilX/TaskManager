@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.taskmanager">
 
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,20 +13,27 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ChildMenuDrawer.ChildProfileActivity"></activity>
+        <activity android:name=".AddProfileActivity"></activity>
+        <activity android:name=".ChildMenuDrawer.ChildProfileActivity" />
         <activity android:name=".ChildMenuDrawer.ChildSettingActivity" />
         <activity android:name=".SwitchAccountsActivity" />
         <activity android:name=".ParentMenuDrawer.SettingsActivity" />
         <activity android:name=".ParentMenuDrawer.BankAccountActivity" />
         <activity android:name=".ParentMenuDrawer.ProfileActivity" />
-        <activity android:name=".CreateHouseActivity" />
+        <activity android:name=".AccountActivity" />
         <activity android:name=".LoginActivity" />
-        <activity android:name=".SplashScreen" />
+        <activity android:name=".ChildUI.HomeChildActivity" />
         <activity android:name=".MainLoginActivity" />
-        <activity android:name=".ParentUI.HomeActivity" />
         <activity android:name=".RegisterActivity" />
+        <activity android:name=".ParentUI.HomeActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
-            android:name=".ChildUI.HomeChildActivity"
+            android:name=".SplashScreen"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

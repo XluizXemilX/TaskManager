@@ -18,14 +18,14 @@ class MainLoginActivity : AppCompatActivity() {
             val intent =
                 Intent(this@MainLoginActivity, RegisterActivity::class.java)  // when button press send user to  RegisterActivity
             startActivity(intent)
-            finish()
+
         }
 
         loginIntoHouse_btn.setOnClickListener {
             val intent =
                 Intent(this@MainLoginActivity, LoginActivity::class.java)  // when button press send user to LoginActivity
             startActivity(intent)
-            finish()
+
         }
     }
 
