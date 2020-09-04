@@ -13,19 +13,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AddProfileActivity"></activity>
+        <activity android:name=".parentUI.taskCreation.TaskSettingsActivity"></activity>
+        <activity android:name=".parentUI.taskCreation.AssignTaskActivity" />
+        <activity android:name=".parentUI.taskCreation.DetailTaskActivity" />
+        <activity android:name=".parentUI.taskCreation.TaskTypeActivity" />
+        <activity android:name=".parentUI.taskCreation.AddTaskActivity" />
+        <activity android:name=".AddProfileActivity" />
         <activity android:name=".ChildMenuDrawer.ChildProfileActivity" />
         <activity android:name=".ChildMenuDrawer.ChildSettingActivity" />
         <activity android:name=".SwitchAccountsActivity" />
-        <activity android:name=".ParentMenuDrawer.SettingsActivity" />
-        <activity android:name=".ParentMenuDrawer.BankAccountActivity" />
-        <activity android:name=".ParentMenuDrawer.ProfileActivity" />
-        <activity android:name=".AccountActivity" />
+        <activity android:name=".parentMenuDrawer.SettingsActivity" />
+        <activity android:name=".parentMenuDrawer.BankAccountActivity" />
+        <activity android:name=".parentMenuDrawer.ProfileActivity" />
+        <activity android:name=".FirstProfileActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".ChildUI.HomeChildActivity" />
         <activity android:name=".MainLoginActivity" />
         <activity android:name=".RegisterActivity" />
-        <activity android:name=".ParentUI.HomeActivity">
+        <activity android:name=".parentUI.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorWhiteBackground"
-    tools:context=".ParentMenuDrawer.BankAccountActivity">
+    tools:context=".parentMenuDrawer.BankAccountActivity">
 
     <ImageButton
         android:id="@+id/back_arrow_bank"

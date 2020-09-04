@@ -1,5 +1,6 @@
-package com.example.taskmanager.ParentUI
+package com.example.taskmanager.parentUI
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -8,8 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import com.example.taskmanager.parentUI.taskCreation.AddTaskActivity
 import com.example.taskmanager.classes.Chore
-import com.example.taskmanager.classes.Profile
 import com.example.taskmanager.classes.SharedPrefsUtil
 import com.example.taskmanager.R
 import com.google.firebase.auth.FirebaseAuth
@@ -71,12 +72,22 @@ class ChoreFragment : Fragment() {
             val profileId = SharedPrefsUtil.getInstance(context).get("userId", "")
             val user = FirebaseDatabase.getInstance().reference.child("account").child(id)
                 .child("users").child(profileId).child("type")
-            val profile = Profile::class
-            if(user.equals("parent")){
-                Toast.makeText(context, "wrong", Toast.LENGTH_SHORT).show()
-            }
-            createTask()
-            setUpTaskList()
+
+            //if(user.equals("parent")){
+
+                val intent =
+                    Intent(
+                        context,
+                        AddTaskActivity::class.java
+                    ) // send user to create a house if task is completed
+                startActivity(intent)
+            //}
+            //else{
+                //Toast.makeText(context, "You do not have the credentials for this!", Toast.LENGTH_SHORT).show()
+           // }
+
+            //createTask()
+            //setUpTaskList()
 
         }
     }
@@ -185,12 +196,12 @@ class ChoreFragment : Fragment() {
 
         postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                if(dataSnapshot!!.exists()){
+                if(dataSnapshot.exists()){
                     listItems.clear()
                     for (e in dataSnapshot.children){
                         val chore = e.getValue(Chore::class.java)
                         if(chore!!.type=="chore") {
-                            listItems.add(chore!!.taskName)
+                            listItems.add(chore.taskName)
                         }
                     }
 

@@ -1,45 +1,43 @@
-package com.example.taskmanager
+package com.example.taskmanager.parentUI.taskCreation
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.taskmanager.parentUI.HomeActivity
+import com.example.taskmanager.R
 import com.example.taskmanager.classes.GenericRecyclerAdapter
 import com.example.taskmanager.classes.Profile
 import com.example.taskmanager.classes.SharedPrefsUtil
-import com.google.firebase.auth.FirebaseAuth
-
 import com.google.firebase.database.*
-import kotlinx.android.synthetic.main.activity_switch_accounts.*
+import kotlinx.android.synthetic.main.activity_assign_task.*
 
-
-class SwitchAccountsActivity :  AppCompatActivity(), GenericRecyclerAdapter.GenericRecyclerListener<Profile> {
+class AssignTaskActivity : AppCompatActivity(),
+    GenericRecyclerAdapter.GenericRecyclerListener<Profile> {
 
     private lateinit var refUsers: DatabaseReference
-    private lateinit var mAuth: FirebaseAuth
-    private var postListener: ValueEventListener? = null
 
+    private var postListener: ValueEventListener? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_switch_accounts)
+        setContentView(R.layout.activity_assign_task)
 
-        mAuth= FirebaseAuth.getInstance()
-
-        back_switch_account_btn.setOnClickListener {
+        back_assign_task_btn.setOnClickListener {
             finish()
         }
 
-        add_Profile_fbtn.setOnClickListener{
+        free_for_all_tv.setOnClickListener{
+            //leaves the assign as empty or all(only works with jobs)
+            //if(task.type = "job")
             val intent =
                 Intent(
-                    this@SwitchAccountsActivity,
-                    AddProfileActivity::class.java
-                ) // send user to create a house if task is completed
+                    this@AssignTaskActivity,
+                    TaskSettingsActivity::class.java
+                ) // send user to finish the task creation
             startActivity(intent)
-
         }
+
+
         val listProfiles = ArrayList<Profile>()
         refUsers = FirebaseDatabase.getInstance().reference.child("account").child(SharedPrefsUtil.getInstance(this).get("accountId", "")).child("users")
         val profileRef = refUsers
@@ -53,10 +51,10 @@ class SwitchAccountsActivity :  AppCompatActivity(), GenericRecyclerAdapter.Gene
                         profile!!.id = e.key
                         listProfiles.add(profile)
                     }
-                    profile_recyclerview.layoutManager = GridLayoutManager(this@SwitchAccountsActivity, 2);
+                    assign_task_recyclerview.layoutManager = GridLayoutManager(this@AssignTaskActivity, 2);
                     var adapter = GenericRecyclerAdapter(listProfiles, R.layout.row_profile_layout)
                     adapter.listener = thisContext
-                    profile_recyclerview.adapter = adapter
+                    assign_task_recyclerview.adapter = adapter
 
                 }
             }
@@ -68,16 +66,16 @@ class SwitchAccountsActivity :  AppCompatActivity(), GenericRecyclerAdapter.Gene
 
         }
         profileRef.addListenerForSingleValueEvent(postListener as ValueEventListener)
-
     }
 
     override fun onClick(d: Profile?) {
 
+        // needs to select profile and set it for the task
         val intent =
             Intent(
-                this@SwitchAccountsActivity,
-                HomeActivity::class.java
-            ) // send user to create a house if task is completed
+                this@AssignTaskActivity,
+                TaskSettingsActivity::class.java
+            ) // send user to finish the task creation
         startActivity(intent)
     }
 }

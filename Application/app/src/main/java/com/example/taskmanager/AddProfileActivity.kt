@@ -4,12 +4,11 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
-import com.example.taskmanager.ParentUI.HomeActivity
+import com.example.taskmanager.parentUI.HomeActivity
 import com.example.taskmanager.classes.SharedPrefsUtil
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_add_profile.*
-import kotlinx.android.synthetic.main.activity_create_house.*
 
 class AddProfileActivity : AppCompatActivity() {
 

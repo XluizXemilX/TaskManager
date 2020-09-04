@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:backgroundTint="@color/colorWhiteBackground"
-    tools:context=".ParentMenuDrawer.SettingsActivity">
+    tools:context=".parentMenuDrawer.SettingsActivity">
 
     <ImageButton
         android:id="@+id/back_settings_parent"

@@ -1,4 +1,4 @@
-package com.example.taskmanager.ParentMenuDrawer
+package com.example.taskmanager.parentMenuDrawer
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

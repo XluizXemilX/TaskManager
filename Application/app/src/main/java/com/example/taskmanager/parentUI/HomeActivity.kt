@@ -1,4 +1,4 @@
-package com.example.taskmanager.ParentUI
+package com.example.taskmanager.parentUI
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -11,8 +11,8 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
-import com.example.taskmanager.ParentMenuDrawer.BankAccountActivity
-import com.example.taskmanager.ParentMenuDrawer.ProfileActivity
+import com.example.taskmanager.parentMenuDrawer.BankAccountActivity
+import com.example.taskmanager.parentMenuDrawer.ProfileActivity
 import com.example.taskmanager.SwitchAccountsActivity
 import com.example.taskmanager.R
 import com.example.taskmanager.SplashScreen

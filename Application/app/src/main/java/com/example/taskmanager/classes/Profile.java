@@ -6,8 +6,19 @@ public class Profile {
     private String nickname;
     private String type;
     private String id ;
-    private String userPin;
+    private String accountId;
+    private String profilePin;
     private int picture;
+
+    public String getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
+    }
+
+
 
     public String getNickname() {
         return nickname;
@@ -34,11 +45,11 @@ public class Profile {
     }
 
     public String getUserPin() {
-        return userPin;
+        return profilePin;
     }
 
     public void setUserPin(String userPin) {
-        this.userPin = userPin;
+        this.profilePin = userPin;
     }
 
     public int getPicture() {

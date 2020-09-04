@@ -1,4 +1,4 @@
-package com.example.taskmanager.ParentUI
+package com.example.taskmanager.parentUI
 
 import android.os.Bundle
 import android.util.Log
