@@ -21,13 +21,12 @@
         <activity android:name=".AddProfileActivity" />
         <activity android:name=".ChildMenuDrawer.ChildProfileActivity" />
         <activity android:name=".ChildMenuDrawer.ChildSettingActivity" />
-        <activity android:name=".SwitchAccountsActivity" />
+        <activity android:name=".SwitchProfileActivity" />
         <activity android:name=".parentMenuDrawer.SettingsActivity" />
         <activity android:name=".parentMenuDrawer.BankAccountActivity" />
         <activity android:name=".parentMenuDrawer.ProfileActivity" />
         <activity android:name=".FirstProfileActivity" />
         <activity android:name=".LoginActivity" />
-        <activity android:name=".ChildUI.HomeChildActivity" />
         <activity android:name=".MainLoginActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".parentUI.HomeActivity">

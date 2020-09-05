@@ -47,7 +47,8 @@
         android:layout_marginEnd="26dp"
         android:ems="10"
         android:hint="Profile pin"
-        android:inputType="textPassword"
+        android:inputType="numberPassword"
+        android:maxLength="4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -59,6 +60,20 @@
         android:layout_height="150dp"
         android:layout_marginTop="16dp"
         android:src="@drawable/user_default_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/first_profile_chage_pic"
+        android:layout_width="51dp"
+        android:layout_height="34dp"
+        android:layout_marginTop="144dp"
+        android:background="@drawable/box"
+        android:elevation="3dp"
+        android:gravity="center"
+        android:text="edit"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

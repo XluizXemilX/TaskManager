@@ -13,9 +13,11 @@ import com.example.taskmanager.parentUI.taskCreation.AddTaskActivity
 import com.example.taskmanager.classes.Chore
 import com.example.taskmanager.classes.SharedPrefsUtil
 import com.example.taskmanager.R
+import com.example.taskmanager.classes.Profile
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.fragment_chore.*
+import kotlinx.android.synthetic.main.fragment_jobs.*
 import kotlinx.android.synthetic.main.task_box.view.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -55,37 +57,22 @@ class ChoreFragment : Fragment() {
 
     }
 
-//    override fun onDestroy() {
-//        postListener?.let { refUsers.removeEventListener(it) }
-//
-//        super.onDestroy()
-//    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         setUpTaskList()
-
+        val profile = SharedPrefsUtil.getInstance(context).get("CURRENT_PROFILE", Profile::class.java, null)
+        if(profile == null || profile.type == "Child"){
+            addTask_Floating_btn_job.hide()
+        }
         addTask_Floating_btn.setOnClickListener {
-
-            val id = SharedPrefsUtil.getInstance(context).get("accountId", "")
-            val profileId = SharedPrefsUtil.getInstance(context).get("userId", "")
-            val user = FirebaseDatabase.getInstance().reference.child("account").child(id)
-                .child("users").child(profileId).child("type")
-
-            //if(user.equals("parent")){
-
                 val intent =
                     Intent(
                         context,
                         AddTaskActivity::class.java
                     ) // send user to create a house if task is completed
                 startActivity(intent)
-            //}
-            //else{
-                //Toast.makeText(context, "You do not have the credentials for this!", Toast.LENGTH_SHORT).show()
-           // }
-
             //createTask()
             //setUpTaskList()
 
@@ -153,6 +140,7 @@ class ChoreFragment : Fragment() {
                 userHashMap["assignUser"] = person
                 userHashMap["type"] = "chore"
                 userHashMap["dueDate"] = dueDate
+                userHashMap["recurrence"]
                 userHashMap["photoRequired"] = ""
                 userHashMap["verificationRequire"] = ""
                 refUsers.push().setValue(userHashMap)

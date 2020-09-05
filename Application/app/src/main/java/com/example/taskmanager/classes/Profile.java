@@ -1,6 +1,6 @@
 package com.example.taskmanager.classes;
 
-import com.example.taskmanager.R;
+import java.util.Map;
 
 public class Profile {
     private String nickname;
@@ -8,7 +8,7 @@ public class Profile {
     private String id ;
     private String accountId;
     private String profilePin;
-    private int picture;
+    private String picture;
 
     public String getAccountId() {
         return accountId;
@@ -44,19 +44,31 @@ public class Profile {
         this.id = id;
     }
 
-    public String getUserPin() {
+    public String getProfilePin() {
         return profilePin;
     }
 
-    public void setUserPin(String userPin) {
+    public void setProfilePin(String userPin) {
         this.profilePin = userPin;
     }
 
-    public int getPicture() {
+    public String getPicture() {
         return picture;
     }
 
-    public void setPicture(int picture) {
+    public void setPicture(String picture) {
         this.picture = picture;
     }
+
+
+    public void fromMap(Map<String, String> map){
+        this.nickname = map.get("nickname");
+        this.type = map.get("type");
+        this.accountId = map.get("accountId");
+        this.picture = map.get("picture");
+        this.profilePin = map.get("profilePin");
+        this.id = map.get("id");
+    }
+
+
 }

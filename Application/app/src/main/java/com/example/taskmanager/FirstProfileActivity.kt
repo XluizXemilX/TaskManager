@@ -1,9 +1,13 @@
 package com.example.taskmanager
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
 import android.widget.Toast
+import com.example.taskmanager.classes.Profile
 import com.example.taskmanager.classes.SharedPrefsUtil
 import com.example.taskmanager.parentUI.HomeActivity
 import com.google.firebase.database.DatabaseReference
@@ -24,6 +28,10 @@ class FirstProfileActivity : AppCompatActivity() {
         finish_btn.setOnClickListener {
             createProfile()
         }
+
+        first_profile_chage_pic.setOnClickListener {
+            pictureSelection()
+        }
     }
 
     private fun createProfile() {
@@ -42,14 +50,22 @@ class FirstProfileActivity : AppCompatActivity() {
             val id = SharedPrefsUtil.getInstance(this).get("accountId","")
             refUsers = FirebaseDatabase.getInstance().reference.child("account").child(id).child("users")
 
-            val userHashMap = HashMap<String, Any>()  // holds user data
+            val userHashMap = HashMap<String, String>()  // holds user data
             userHashMap["accountId"] = id
             userHashMap["nickname"] = nickname
             userHashMap["profilePin"] = profilePin
-            userHashMap["type"] = "parent"
-            userHashMap["picture"] = R.drawable.user_default_icon
-            refUsers.push().setValue(userHashMap)
+            userHashMap["type"] = "Parent"
+            userHashMap["picture"] = "DEFAULT_USER_ICON"
+            val pushRef = refUsers.push()
+            val key = pushRef.key
+            pushRef.setValue(userHashMap)
+
                 .addOnSuccessListener {
+                    //needs to save current user
+                    val profile = Profile()
+                    profile.fromMap(userHashMap)
+                    profile.id = key
+                    SharedPrefsUtil.getInstance(this).put("CURRENT_PROFILE", Profile::class.java, profile)
                     val intent =
                         Intent(
                             this@FirstProfileActivity,
@@ -61,11 +77,16 @@ class FirstProfileActivity : AppCompatActivity() {
                 .addOnFailureListener {
                     Toast.makeText(
                            this@FirstProfileActivity,
-                           "Error Message: Something is wrong",
+                           "Error Message: Lost connection",
                            Toast.LENGTH_SHORT
                        ).show()
                 }
         }
+    }
+
+    private fun pictureSelection(){
+        val dialogView: View = LayoutInflater.from(this@FirstProfileActivity).inflate(R.layout.task_box, null) // dialog box
+
     }
 
 }

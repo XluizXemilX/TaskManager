@@ -41,7 +41,7 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_marginTop="4dp"
-                android:src='@{model.picture}' />
+                app:userIcon='@{model.picture}' />
 
             <TextView
                 android:id="@+id/profile_nickname"

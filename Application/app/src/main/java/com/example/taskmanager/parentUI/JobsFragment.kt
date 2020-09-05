@@ -12,7 +12,9 @@ import androidx.appcompat.app.AlertDialog
 import com.example.taskmanager.classes.Chore
 import com.example.taskmanager.classes.SharedPrefsUtil
 import com.example.taskmanager.R
+import com.example.taskmanager.classes.Profile
 import com.google.firebase.database.*
+import kotlinx.android.synthetic.main.activity_switch_accounts.*
 import kotlinx.android.synthetic.main.fragment_jobs.*
 import kotlinx.android.synthetic.main.task_box.view.*
 
@@ -53,12 +55,17 @@ class JobsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setUpTaskList()
+        val profile = SharedPrefsUtil.getInstance(context).get("CURRENT_PROFILE", Profile::class.java, null)
+        if(profile == null || profile.type == "Child"){
+            addTask_Floating_btn_job.hide()
+        }
         addTask_Floating_btn_job.setOnClickListener {
 
             createTask()
             setUpTaskList()
         }
     }
+
 
     override fun onDestroy() {
         postListener?.let { refUsers.removeEventListener(it) }
@@ -99,17 +106,11 @@ class JobsFragment : Fragment() {
             val dueDate = dialogView.task_dueDate_et.text.toString()
 
             if (taskName == "") {
-                Toast.makeText(context, "please write Task Name.", Toast.LENGTH_SHORT)
-                    .show()
+                dialogView.task_name_et.error = "please write Task Name"
             } else if (person == "") {
-                Toast.makeText(
-                    context,
-                    "please write assigned person password.",
-                    Toast.LENGTH_SHORT
-                )
-                    .show()
+                dialogView.task_person_et.error = "Assign a profile for the task"
             } else if (dueDate == "") {
-                Toast.makeText(context, "please enter due date.", Toast.LENGTH_SHORT)
+                dialogView.task_dueDate_et.error = "Enter a due date"
             } else {
                 //send task to the firebase
                 val id = SharedPrefsUtil.getInstance(context).get("accountId", "")

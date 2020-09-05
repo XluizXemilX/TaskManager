@@ -24,14 +24,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingStart="110dp"
+                android:paddingEnd="120dp">
 
                 <TextView
+                    android:id="@+id/bar_title"
                     style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Users Name"
-                    android:textColor="#5EAFC5" />
+                    android:textColor="#5EAFC5"
+                    android:textSize="24sp" />
             </LinearLayout>
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>

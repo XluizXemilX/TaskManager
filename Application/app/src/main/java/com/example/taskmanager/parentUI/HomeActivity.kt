@@ -13,9 +13,11 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.example.taskmanager.parentMenuDrawer.BankAccountActivity
 import com.example.taskmanager.parentMenuDrawer.ProfileActivity
-import com.example.taskmanager.SwitchAccountsActivity
+import com.example.taskmanager.SwitchProfileActivity
 import com.example.taskmanager.R
 import com.example.taskmanager.SplashScreen
+import com.example.taskmanager.classes.Profile
+import com.example.taskmanager.classes.SharedPrefsUtil
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.content_main.*
@@ -31,6 +33,8 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
+        val profile = SharedPrefsUtil.getInstance(this).get("CURRENT_PROFILE", Profile::class.java, null)// current profile
+
         //check if the user is login or not
         val uid = FirebaseAuth.getInstance().uid
         if(uid == null){
@@ -45,6 +49,8 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawerLayout = findViewById(R.id.drawerLayout)
         navView = findViewById(R.id.nav_view)
 
+        bar_title.text = profile.nickname
+
         val toggle = ActionBarDrawerToggle(
             this, drawerLayout, toolbar, 0, 0
         )
@@ -56,21 +62,21 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 
         //bottom nav bar
-        val jobsFragment = JobsFragment()
-        val choreFragment = ChoreFragment()
-        val chatFragment = ChatFragment()
-        val reportsFragment = ReportsFragment()
-        val walletFragment = WalletFragment()
+        //val jobsFragment = JobsFragment()
+        //val choreFragment = ChoreFragment()
+        //val chatFragment = ChatFragment()
+        //val reportsFragment = ReportsFragment()
+        //val walletFragment = WalletFragment()
 
-        makeCurrFragment(jobsFragment)
+        makeCurrFragment(JobsFragment())
 
         bottom_nav_bar.setOnNavigationItemSelectedListener {
             when(it.itemId){
-                R.id.parent_jobs -> makeCurrFragment(jobsFragment)
-                R.id.parent_chores -> makeCurrFragment(choreFragment)
-                R.id.parent_chat -> makeCurrFragment(chatFragment)
-                R.id.parent_report -> makeCurrFragment(reportsFragment)
-                R.id.parent_wallet -> makeCurrFragment(walletFragment)
+                R.id.parent_jobs -> makeCurrFragment(JobsFragment())
+                R.id.parent_chores -> makeCurrFragment(ChoreFragment())
+                R.id.parent_chat -> makeCurrFragment(ChatFragment())
+                R.id.parent_report -> makeCurrFragment(ReportsFragment())
+                R.id.parent_wallet -> makeCurrFragment(WalletFragment())
             }
             true
         }
@@ -109,7 +115,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.parent_nav_switch_account->{
                 Toast.makeText(this, "switch account", Toast.LENGTH_SHORT).show()
                 val intent =
-                    Intent(this@HomeActivity, SwitchAccountsActivity::class.java) // send user to switch account
+                    Intent(this@HomeActivity, SwitchProfileActivity::class.java) // send user to switch account
                 startActivity(intent)
 
             }

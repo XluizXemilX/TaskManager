@@ -43,7 +43,7 @@ class LoginActivity : AppCompatActivity() {
                         val currentAccountId = task.result!!.user!!.uid
                         SharedPrefsUtil.getInstance(this).put("accountId", currentAccountId)
                         val intent =
-                            Intent(this@LoginActivity, SwitchAccountsActivity::class.java) // send user to create a house if task is completed "needs to be change to Switch Activity
+                            Intent(this@LoginActivity, SwitchProfileActivity::class.java) // send user to create a house if task is completed "needs to be change to Switch Activity
                         startActivity(intent)
 
                     }

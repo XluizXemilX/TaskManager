@@ -4,6 +4,52 @@ public class Chore {
     private String taskName;
     private String assignUser;
     private String dueDate;
+    private String accountId;
+    private String photoRequired;
+    private String verificationRequire;
+    private String id;
+    private String type;
+    private String picture;
+
+    public String getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
+    }
+
+    public String getPhotoRequired() {
+        return photoRequired;
+    }
+
+    public void setPhotoRequired(String photoRequired) {
+        this.photoRequired = photoRequired;
+    }
+
+    public String getVerificationRequire() {
+        return verificationRequire;
+    }
+
+    public void setVerificationRequire(String verificationRequire) {
+        this.verificationRequire = verificationRequire;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
 
     public String getType() {
         return type;
@@ -12,8 +58,6 @@ public class Chore {
     public void setType(String type) {
         this.type = type;
     }
-
-    private String type;
 
     public String getTaskName() {
         return taskName;
