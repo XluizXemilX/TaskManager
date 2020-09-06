@@ -102,7 +102,6 @@ class TaskSettingsActivity : AppCompatActivity() {
             userHashMap["status"] = Constants.STATUS_INCOMPLETE
             userHashMap["description"] = taskRef.description
             val pushRef = refUsers.push()
-            val key = pushRef.key
             pushRef.setValue(userHashMap)
                 .addOnSuccessListener {
 

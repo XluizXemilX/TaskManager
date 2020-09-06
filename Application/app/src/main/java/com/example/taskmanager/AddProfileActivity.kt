@@ -3,6 +3,9 @@ package com.example.taskmanager
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import com.example.taskmanager.classes.Constants
 import com.example.taskmanager.classes.Profile
@@ -15,7 +18,6 @@ import kotlinx.android.synthetic.main.activity_add_profile.*
 class AddProfileActivity : AppCompatActivity() {
 
     private lateinit var refUsers: DatabaseReference
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_profile)
@@ -23,43 +25,74 @@ class AddProfileActivity : AppCompatActivity() {
         addP_btn.setOnClickListener {
             createProfile()
         }
+
+        val types = resources.getStringArray(R.array.types)// array for the spinner
+        if(profile_type_spn != null)
+        {
+            val adapter = ArrayAdapter(this,R.layout.spinner_item_custome, types)// array adapter for the values of the spinner
+            profile_type_spn.adapter = adapter // sets the spinner adapter to the adapter
+        }
+        profile_type_spn.onItemSelectedListener = object :
+            AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                if(position == 1){
+                    pin_addP_et.visibility = View.GONE
+                }
+                else{
+                    pin_addP_et.visibility = View.VISIBLE
+                }
+
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                Toast.makeText(this@AddProfileActivity, "Type field is require!", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun createProfile() {
-        val nickname: String = nickname_addP_et.text.toString().toLowerCase()
-        val profilePin: String = pin_addP_et.text.toString()
+        val nickname: String = nickname_addP_et.text.toString().toLowerCase() // nickname field
+        val profilePin: String = pin_addP_et.text.toString() // pin field
 
+        //spinner
+
+        //check if any of the fields are empty or do not complete the requirements
         if (nickname == "") {
             nickname_addP_et.error = "Nickname require"
             Toast.makeText(this@AddProfileActivity, "please enter Nickname.", Toast.LENGTH_SHORT)
                 .show()
-        } else if (profilePin == "") {
+        } else if (profilePin == "" && pin_addP_et.visibility == View.VISIBLE) {
             pin_addP_et.error = "Pin require"
             Toast.makeText(this@AddProfileActivity, "please enter pin.", Toast.LENGTH_SHORT)
                 .show()
-        } else if(profilePin.length < 4){
+        } else if(profilePin.length < 4 && pin_addP_et.visibility == View.VISIBLE){
             pin_addP_et.error = "Pin require"
             Toast.makeText(this@AddProfileActivity, "please a 4-digit pin.", Toast.LENGTH_SHORT)
                 .show()
 
         } else {
-
-            //firebaseUserId = mAuth.currentUser!!.uid
-            val id = SharedPrefsUtil.getInstance(this).get(Constants.CURRENT_ACCOUNT,"")
-            refUsers = FirebaseDatabase.getInstance().reference.child("account").child(id).child("users")
+            //saving data to database
+            val id = SharedPrefsUtil.getInstance(this).get(Constants.CURRENT_ACCOUNT,"")// account id
+            refUsers = FirebaseDatabase.getInstance().reference.child("account").child(id).child("users") // database reference
 
             val userHashMap = HashMap<String, String>()  // holds user data
             userHashMap[Constants.CURRENT_ACCOUNT] = id
             userHashMap["nickname"] = nickname
             userHashMap["profilePin"] = profilePin
-            userHashMap["type"] = ""
+            userHashMap["type"] = profile_type_spn.selectedItem.toString()
             userHashMap["picture"]= "DEFAULT_USER_ICON"
             val pushRef = refUsers.push()
             val key = pushRef.key
             pushRef.setValue(userHashMap)
 
-                .addOnSuccessListener {
-                    //needs to save current user
+                .addOnSuccessListener {// if task is complete successful
+                    //saves current user to use during the entire session
+                    //saves to the database
                     val profile = Profile()
                     profile.fromMap(userHashMap)
                     profile.id = key
@@ -72,7 +105,7 @@ class AddProfileActivity : AppCompatActivity() {
                     startActivity(intent)
 
                 }
-                .addOnFailureListener {
+                .addOnFailureListener {// task fails
                     Toast.makeText(
                         this@AddProfileActivity,
                         "Error Message: Lost connection",

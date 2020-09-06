@@ -139,7 +139,7 @@ class SwitchProfileActivity :  AppCompatActivity(), GenericRecyclerAdapter.Gener
         dialogView.dialog_ok_pin_btn.setOnClickListener {
             val pin = dialogView.pin_validation_et.text.toString()
             if(pin.isEmpty()){
-                dialogView.dialog_ok_pin_btn.error = "Enter the pin"
+                dialogView.pin_validation_et.error = "Enter the pin"
             }
             if(pin == profile.profilePin){
                 val intent =
@@ -150,7 +150,7 @@ class SwitchProfileActivity :  AppCompatActivity(), GenericRecyclerAdapter.Gener
                 startActivity(intent)
             }
             else{
-                dialogView.dialog_ok_pin_btn.error = "Incorrect pin"
+                dialogView.pin_validation_et.error = "Incorrect pin"
             }
         }
 

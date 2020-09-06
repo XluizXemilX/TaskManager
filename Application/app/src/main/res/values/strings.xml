@@ -9,4 +9,9 @@
     <string name="dob">MM/DD/YYYY</string>
     <string name="open">open</string>
     <string name="close">close</string>
+
+    <string-array name="types">
+        <item>Parent</item>
+        <item>Child</item>
+    </string-array>
 </resources>

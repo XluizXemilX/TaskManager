@@ -94,7 +94,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        val profile = SharedPrefsUtil.getInstance(this).get(Constants.CURRENT_PROFILE, Profile::class.java, null)
+
         when ( item.itemId){
             R.id.parent_nav_profile->{
                 Toast.makeText(this, "Profile", Toast.LENGTH_SHORT).show()
