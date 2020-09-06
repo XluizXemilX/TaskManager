@@ -37,7 +37,7 @@ class SwitchProfileActivity :  AppCompatActivity(), GenericRecyclerAdapter.Gener
 
 
 
-        val profile = SharedPrefsUtil.getInstance(this).get("CURRENT_PROFILE", Profile::class.java, null)
+        val profile = SharedPrefsUtil.getInstance(this).get(Constants.CURRENT_PROFILE, Profile::class.java, null)
         if(profile == null || profile.type == "Child"){
             add_Profile_fbtn.hide()
         }
@@ -46,7 +46,7 @@ class SwitchProfileActivity :  AppCompatActivity(), GenericRecyclerAdapter.Gener
         }
 
         val listProfiles = ArrayList<Profile>()
-        refUsers = FirebaseDatabase.getInstance().reference.child("account").child(SharedPrefsUtil.getInstance(this).get("accountId", "")).child("users")
+        refUsers = FirebaseDatabase.getInstance().reference.child("account").child(SharedPrefsUtil.getInstance(this).get(Constants.CURRENT_ACCOUNT, "")).child("users")
         val profileRef = refUsers
         val thisContext =  this
         postListener = object : ValueEventListener {
@@ -78,11 +78,20 @@ class SwitchProfileActivity :  AppCompatActivity(), GenericRecyclerAdapter.Gener
 
     override fun onClick(profile: Profile?) {
 
-        if(profile!!.type == "Parent"){
+        if(profile!!.type == Constants.PARENT){
             validateParentPinLogin(profile)
 
         }
-        
+        else{
+            SharedPrefsUtil.getInstance(this).put(Constants.CURRENT_PROFILE,Profile::class.java, profile)
+            val intent =
+                Intent(
+                    this@SwitchProfileActivity,
+                    HomeActivity::class.java
+                ) // send user to create a house if task is completed
+            startActivity(intent)
+        }
+
     }
 
     private fun validateParentPinLogin(profile: Profile?){
@@ -122,7 +131,7 @@ class SwitchProfileActivity :  AppCompatActivity(), GenericRecyclerAdapter.Gener
     }
 
     private fun validateParentPin(){
-        val profile = SharedPrefsUtil.getInstance(this).get("CURRENT_PROFILE", Profile::class.java, null)
+        val profile = SharedPrefsUtil.getInstance(this).get(Constants.CURRENT_PROFILE, Profile::class.java, null)
         val dialogView: View = LayoutInflater.from(this).inflate(R.layout.pin_validation, null)
         dialogView.dialog_cancel_pin_btn.setOnClickListener { // if task creation is cancel
             alertDialog.cancel()

@@ -5,11 +5,38 @@ public class Chore {
     private String assignUser;
     private String dueDate;
     private String accountId;
-    private String photoRequired;
-    private String verificationRequire;
+    private String photoRequired = "false";
+    private String verificationRequire = "false";
     private String id;
     private String type;
     private String picture;
+    private String status;
+    private String description;
+    private String recurrence;
+
+    public String getRecurrence() {
+        return recurrence;
+    }
+
+    public void setRecurrence(String recurrence) {
+        this.recurrence = recurrence;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public String getAccountId() {
         return accountId;

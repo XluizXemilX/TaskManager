@@ -4,12 +4,14 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import com.example.taskmanager.classes.Constants
 import com.example.taskmanager.classes.SharedPrefsUtil
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_register.*
+import kotlinx.android.synthetic.main.pin_validation.view.*
 
 
 class RegisterActivity : AppCompatActivity() {
@@ -37,17 +39,22 @@ class RegisterActivity : AppCompatActivity() {
         val dob: String = DOB_register.text.toString()              // date of birth edittext value
 
         if (firstName == "") {
+            firstName_register.error = "First Name require"
             Toast.makeText(this@RegisterActivity, "please write First Name.", Toast.LENGTH_SHORT) // checks if first name is empty
                 .show()
         } else if (lastName == "") {
+            lastName_register.error = "LastName require"
             Toast.makeText(this@RegisterActivity, "please write Last Name.", Toast.LENGTH_SHORT) // checks if last name is empty
                 .show()
         } else if (email == "") {
+            email_register.error = "Email require"
             Toast.makeText(this@RegisterActivity, "please write email.", Toast.LENGTH_SHORT).show() //checks if email is empty
         } else if (password == "") {
+            password_register.error = "Password require"
             Toast.makeText(this@RegisterActivity, "please write password", Toast.LENGTH_SHORT) //checks if password is empty
                 .show()
         } else if (dob == "") {
+            DOB_register.error = "Date of birth require"
             Toast.makeText(this@RegisterActivity, "please enter Date of Birth", Toast.LENGTH_SHORT) //checks if date of birth is empty
                 .show()
         } else {
@@ -65,7 +72,7 @@ class RegisterActivity : AppCompatActivity() {
                         userHashMap["password"] = password
                         userHashMap["dob"] = dob
 
-                        SharedPrefsUtil.getInstance(this).put("accountId", firebaseUserId)
+                        SharedPrefsUtil.getInstance(this).put(Constants.CURRENT_ACCOUNT, firebaseUserId)
                         refUsers.updateChildren(userHashMap)
                             .addOnCompleteListener { task ->
                                 if (task.isSuccessful) {

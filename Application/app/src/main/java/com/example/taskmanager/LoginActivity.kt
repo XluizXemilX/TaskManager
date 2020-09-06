@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import com.example.taskmanager.classes.Constants
 import com.example.taskmanager.classes.SharedPrefsUtil
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_login.*
@@ -29,10 +30,12 @@ class LoginActivity : AppCompatActivity() {
 
         if(email =="")
         {
+            email_login.error = "Email require"
             Toast.makeText(this@LoginActivity, "please write email.", Toast.LENGTH_SHORT).show() //checks if email is empty
         }
         else if(password=="")
         {
+            password_login.error = "Password require"
             Toast.makeText(this@LoginActivity, "please enter password.", Toast.LENGTH_SHORT).show() //checks if email is empty
         }
         else{
@@ -41,7 +44,7 @@ class LoginActivity : AppCompatActivity() {
                 .addOnCompleteListener{task->
                     if(task.isSuccessful){
                         val currentAccountId = task.result!!.user!!.uid
-                        SharedPrefsUtil.getInstance(this).put("accountId", currentAccountId)
+                        SharedPrefsUtil.getInstance(this).put(Constants.CURRENT_ACCOUNT, currentAccountId)
                         val intent =
                             Intent(this@LoginActivity, SwitchProfileActivity::class.java) // send user to create a house if task is completed "needs to be change to Switch Activity
                         startActivity(intent)

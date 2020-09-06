@@ -5,13 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:backgroundTint="@color/colorWhiteBackground"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
     tools:context=".parentUI.taskCreation.TaskSettingsActivity">
 
     <ImageButton
         android:id="@+id/info_photo_proof_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="11dp"
         android:backgroundTint="@color/colorWhiteBackground"
         app:layout_constraintStart_toEndOf="@+id/textView24"
         app:layout_constraintTop_toBottomOf="@+id/info_pay_btn"
@@ -21,7 +23,7 @@
         android:id="@+id/info_pay_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="13dp"
         android:backgroundTint="@color/colorWhiteBackground"
         app:layout_constraintStart_toEndOf="@+id/textView23"
         app:layout_constraintTop_toBottomOf="@+id/info_duedate_btn"
@@ -31,16 +33,16 @@
         android:id="@+id/approval_switch_task_settings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginStart="152dp"
+        android:layout_marginTop="25dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/info_approval_btn"
         app:layout_constraintTop_toBottomOf="@+id/photo_switch_task_settings" />
 
     <ImageButton
         android:id="@+id/back_arrow_task_settings"
         android:layout_width="36dp"
         android:layout_height="36dp"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:background="@color/colorWhiteBackground"
         android:backgroundTint="@color/colorWhiteBackground"
@@ -64,7 +66,6 @@
         android:id="@+id/textView21"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="41dp"
         android:text="Recurrence"
         android:textSize="18sp"
@@ -75,8 +76,7 @@
         android:id="@+id/textView22"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="22dp"
+        android:layout_marginTop="30dp"
         android:text="Due date"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -86,7 +86,7 @@
         android:id="@+id/info_approval_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="12dp"
         android:backgroundTint="@color/colorWhiteBackground"
         app:layout_constraintStart_toEndOf="@+id/textView25"
         app:layout_constraintTop_toBottomOf="@+id/info_photo_proof_btn"
@@ -96,8 +96,7 @@
         android:id="@+id/textView23"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="22dp"
+        android:layout_marginTop="30dp"
         android:text="Pay"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -107,8 +106,7 @@
         android:id="@+id/textView24"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="22dp"
+        android:layout_marginTop="30dp"
         android:text="Photo proof"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -118,8 +116,7 @@
         android:id="@+id/textView25"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="22dp"
+        android:layout_marginTop="30dp"
         android:text="Needs approval"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -129,13 +126,10 @@
         android:id="@+id/photo_switch_task_settings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="196dp"
-        android:layout_marginTop="228dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        android:layout_marginStart="232dp"
+        android:layout_marginTop="15dp"
         app:layout_constraintStart_toEndOf="@+id/textView24"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/task_pay_btn" />
 
     <ImageButton
         android:id="@+id/info_recurrence_btn"
@@ -151,7 +145,7 @@
         android:id="@+id/info_duedate_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="9dp"
         android:backgroundTint="@color/colorWhiteBackground"
         app:layout_constraintStart_toEndOf="@+id/textView22"
         app:layout_constraintTop_toBottomOf="@+id/info_recurrence_btn"
@@ -168,4 +162,38 @@
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/task_reccurrence_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="200dp"
+        android:layout_marginTop="84dp"
+        android:background="@drawable/standard_box_gray_outisde"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@+id/textView21"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/task_due_date_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="262dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/standard_box_gray_outisde"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/textView22"
+        app:layout_constraintTop_toBottomOf="@+id/task_reccurrence_btn" />
+
+    <Button
+        android:id="@+id/task_pay_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="260dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/standard_box_gray_outisde"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView23"
+        app:layout_constraintTop_toBottomOf="@+id/task_due_date_btn" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,6 +13,7 @@ import com.example.taskmanager.parentUI.taskCreation.AddTaskActivity
 import com.example.taskmanager.classes.Chore
 import com.example.taskmanager.classes.SharedPrefsUtil
 import com.example.taskmanager.R
+import com.example.taskmanager.classes.Constants
 import com.example.taskmanager.classes.Profile
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
@@ -62,9 +63,9 @@ class ChoreFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setUpTaskList()
-        val profile = SharedPrefsUtil.getInstance(context).get("CURRENT_PROFILE", Profile::class.java, null)
+        val profile = SharedPrefsUtil.getInstance(context).get(Constants.CURRENT_PROFILE, Profile::class.java, null)
         if(profile == null || profile.type == "Child"){
-            addTask_Floating_btn_job.hide()
+            addTask_Floating_btn.hide()
         }
         addTask_Floating_btn.setOnClickListener {
                 val intent =
@@ -73,9 +74,6 @@ class ChoreFragment : Fragment() {
                         AddTaskActivity::class.java
                     ) // send user to create a house if task is completed
                 startActivity(intent)
-            //createTask()
-            //setUpTaskList()
-
         }
     }
 
@@ -99,87 +97,15 @@ class ChoreFragment : Fragment() {
             }
     }
 
-    private fun createTask() {
-
-        val dialogView: View = LayoutInflater.from(context).inflate(R.layout.task_box, null) // dialog box
-
-        dialogView.dialog_cancel_task_btn.setOnClickListener { // if task creation is cancel
-            alertDialog.cancel()
-        }
-        //dialogView.add_picture.setOnClickListener {
-        //    val intent =
-        //        Intent(MediaStore.ACTION_IMAGE_CAPTURE) // send user to create a house if task is completed
-        //    startActivity(intent)
-        //}
-        dialogView.dialog_save_task_btn.setOnClickListener {    // if task is save
-            val taskName = dialogView.task_name_et.text.toString()
-            val person = dialogView.task_person_et.text.toString()
-            val dueDate = dialogView.task_dueDate_et.text.toString()
-
-            if (taskName == "") {
-                Toast.makeText(context, "please write Task Name.", Toast.LENGTH_SHORT)
-                    .show()
-            } else if (person == "") {
-                Toast.makeText(
-                    context,
-                    "please write assigned person password.",
-                    Toast.LENGTH_SHORT
-                )
-                    .show()
-            } else if (dueDate == "") {
-                Toast.makeText(context, "please enter due date.", Toast.LENGTH_SHORT)
-            } else {
-                //send task to the firebase
-                val id = SharedPrefsUtil.getInstance(context).get("accountId", "")
-                refUsers = FirebaseDatabase.getInstance().reference.child("account").child(id)
-                    .child("task")
-
-                val userHashMap = HashMap<String, Any>()  // holds user data
-                userHashMap["accountId"] = id
-                userHashMap["taskName"] = taskName
-                userHashMap["assignUser"] = person
-                userHashMap["type"] = "chore"
-                userHashMap["dueDate"] = dueDate
-                userHashMap["recurrence"]
-                userHashMap["photoRequired"] = ""
-                userHashMap["verificationRequire"] = ""
-                refUsers.push().setValue(userHashMap)
-                    .addOnSuccessListener {
-                        alertDialog.dismiss()
-
-                    }
-                    .addOnFailureListener {
-                        Toast.makeText(
-                            activity,
-                            "Error Message: Something is wrong",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-            }
-
-        }
-
-        val dialogBuilder: AlertDialog.Builder = AlertDialog.Builder(context!!)
-        dialogBuilder.setOnDismissListener { }
-        dialogBuilder.setView(dialogView)
-
-        alertDialog = dialogBuilder.create()
-
-        //alertDialog.window!!.getAttributes().windowAnimations = R.style.PauseDialogAnimation
-        alertDialog.show()
-
-    }
-
-
-    var postListener: ValueEventListener? = null
+    private var postListener: ValueEventListener? = null
 
     private fun setUpTaskList() {
         if (postListener != null)
             return
 
-        //val listView:ListView? = view?.findViewById<ListView>(R.id.listview_chore)
+
         val listItems = arrayListOf<String>()
-        refUsers =FirebaseDatabase.getInstance().reference.child("account").child(SharedPrefsUtil.getInstance(context).get("accountId", "")).child("task")
+        refUsers =FirebaseDatabase.getInstance().reference.child("account").child(SharedPrefsUtil.getInstance(context).get(Constants.CURRENT_ACCOUNT, "")).child("task")
         val taskRef = refUsers
 
         postListener = object : ValueEventListener {
@@ -188,7 +114,7 @@ class ChoreFragment : Fragment() {
                     listItems.clear()
                     for (e in dataSnapshot.children){
                         val chore = e.getValue(Chore::class.java)
-                        if(chore!!.type=="chore") {
+                        if(chore!!.type==Constants.TYPE_CHORE) {
                             listItems.add(chore.taskName)
                         }
                     }

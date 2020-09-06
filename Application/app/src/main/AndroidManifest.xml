@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.taskmanager">
 
-    <uses-permission android:name="android.permission.CAMERA" />
+<!--    <uses-permission android:name="android.permission.CAMERA" />-->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
@@ -13,14 +13,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+<!--        <provider-->
+<!--            android:authorities="com.example.taskmanager.parentUI.taskCreation.fileprovider"-->
+<!--            android:name="androidx.core.content.FileProvider"-->
+<!--            android:exported="false"-->
+<!--            android:grantUriPermissions="true">-->
+<!--            <meta-data-->
+<!--                android:name="android.support.File_PROVIDER_PATHS"-->
+<!--        </provider>-->
         <activity android:name=".parentUI.taskCreation.TaskSettingsActivity"></activity>
         <activity android:name=".parentUI.taskCreation.AssignTaskActivity" />
         <activity android:name=".parentUI.taskCreation.DetailTaskActivity" />
         <activity android:name=".parentUI.taskCreation.TaskTypeActivity" />
         <activity android:name=".parentUI.taskCreation.AddTaskActivity" />
         <activity android:name=".AddProfileActivity" />
-        <activity android:name=".ChildMenuDrawer.ChildProfileActivity" />
-        <activity android:name=".ChildMenuDrawer.ChildSettingActivity" />
         <activity android:name=".SwitchProfileActivity" />
         <activity android:name=".parentMenuDrawer.SettingsActivity" />
         <activity android:name=".parentMenuDrawer.BankAccountActivity" />

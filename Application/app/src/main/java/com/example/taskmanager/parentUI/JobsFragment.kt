@@ -1,5 +1,6 @@
 package com.example.taskmanager.parentUI
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -12,7 +13,9 @@ import androidx.appcompat.app.AlertDialog
 import com.example.taskmanager.classes.Chore
 import com.example.taskmanager.classes.SharedPrefsUtil
 import com.example.taskmanager.R
+import com.example.taskmanager.classes.Constants
 import com.example.taskmanager.classes.Profile
+import com.example.taskmanager.parentUI.taskCreation.AddTaskActivity
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_switch_accounts.*
 import kotlinx.android.synthetic.main.fragment_jobs.*
@@ -55,14 +58,18 @@ class JobsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setUpTaskList()
-        val profile = SharedPrefsUtil.getInstance(context).get("CURRENT_PROFILE", Profile::class.java, null)
-        if(profile == null || profile.type == "Child"){
+        val profile = SharedPrefsUtil.getInstance(context).get(Constants.CURRENT_PROFILE, Profile::class.java, null)
+        if(profile == null || profile.type == Constants.CHILD){
             addTask_Floating_btn_job.hide()
         }
         addTask_Floating_btn_job.setOnClickListener {
 
-            createTask()
-            setUpTaskList()
+            val intent =
+                Intent(
+                    context,
+                    AddTaskActivity::class.java
+                ) // send user to create a house if task is completed
+            startActivity(intent)
         }
     }
 
@@ -93,73 +100,13 @@ class JobsFragment : Fragment() {
             }
     }
 
-    private fun createTask() {
-
-        val dialogView: View = LayoutInflater.from(context).inflate(R.layout.task_box, null) // dialog box
-
-        dialogView.dialog_cancel_task_btn.setOnClickListener { // if task creation is cancel
-            alertDialog.cancel()
-        }
-        dialogView.dialog_save_task_btn.setOnClickListener {    // if task is save
-            val taskName = dialogView.task_name_et.text.toString()
-            val person = dialogView.task_person_et.text.toString()
-            val dueDate = dialogView.task_dueDate_et.text.toString()
-
-            if (taskName == "") {
-                dialogView.task_name_et.error = "please write Task Name"
-            } else if (person == "") {
-                dialogView.task_person_et.error = "Assign a profile for the task"
-            } else if (dueDate == "") {
-                dialogView.task_dueDate_et.error = "Enter a due date"
-            } else {
-                //send task to the firebase
-                val id = SharedPrefsUtil.getInstance(context).get("accountId", "")
-                refUsers = FirebaseDatabase.getInstance().reference.child("account").child(id)
-                    .child("task")
-
-                val userHashMap = HashMap<String, Any>()  // holds user data
-                userHashMap["accountId"] = id
-                userHashMap["taskName"] = taskName
-                userHashMap["assignUser"] = person
-                userHashMap["type"] = "job" // needs to be change to a spinner
-                userHashMap["dueDate"] = dueDate
-                userHashMap["photoRequired"] = ""
-                userHashMap["verificationRequire"] = ""
-                refUsers.push().setValue(userHashMap)
-                    .addOnSuccessListener {
-
-                        alertDialog.dismiss()
-
-                    }
-                    .addOnFailureListener {
-                        Toast.makeText(
-                            activity,
-                            "Error Message: Something is wrong",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-            }
-
-        }
-
-        val dialogBuilder: AlertDialog.Builder = AlertDialog.Builder(context!!)
-        dialogBuilder.setOnDismissListener { }
-        dialogBuilder.setView(dialogView)
-
-        alertDialog = dialogBuilder.create()
-
-        //alertDialog.window!!.getAttributes().windowAnimations = R.style.PauseDialogAnimation
-        alertDialog.show()
-
-    }
-
-    var postListener: ValueEventListener? = null
+    private var postListener: ValueEventListener? = null
     private fun setUpTaskList() {
 
         if (postListener != null)
             return
         val listItems = arrayListOf<String>()
-        refUsers =FirebaseDatabase.getInstance().reference.child("account").child(SharedPrefsUtil.getInstance(context).get("accountId", "")).child("task")
+        refUsers =FirebaseDatabase.getInstance().reference.child("account").child(SharedPrefsUtil.getInstance(context).get(Constants.CURRENT_ACCOUNT, "")).child("task")
         val taskRef = refUsers
 
         postListener = object : ValueEventListener {
@@ -168,7 +115,7 @@ class JobsFragment : Fragment() {
                     listItems.clear()
                     for (e in dataSnapshot.children){
                         val chore = e.getValue(Chore::class.java)
-                        if(chore!!.type == "job") {
+                        if(chore!!.type == Constants.TYPE_JOB) {
                             listItems.add(chore.taskName)
                         }
                     }

@@ -6,9 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.taskmanager.R
-import com.example.taskmanager.classes.GenericRecyclerAdapter
-import com.example.taskmanager.classes.Profile
-import com.example.taskmanager.classes.SharedPrefsUtil
+import com.example.taskmanager.classes.*
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_assign_task.*
 
@@ -29,6 +27,9 @@ class AssignTaskActivity : AppCompatActivity(),
         free_for_all_tv.setOnClickListener{
             //leaves the assign as empty or all(only works with jobs)
             //if(task.type = "job")
+            val task = SharedPrefsUtil.getInstance(this).get(Constants.CURRENT_TASK, Chore::class.java, null)
+            task.assignUser = ""
+            SharedPrefsUtil.getInstance(this).put(Constants.CURRENT_TASK, Chore::class.java, task)
             val intent =
                 Intent(
                     this@AssignTaskActivity,
@@ -68,9 +69,12 @@ class AssignTaskActivity : AppCompatActivity(),
         profileRef.addListenerForSingleValueEvent(postListener as ValueEventListener)
     }
 
-    override fun onClick(d: Profile?) {
+    override fun onClick(profile: Profile?) {
 
         // needs to select profile and set it for the task
+        val task = SharedPrefsUtil.getInstance(this).get(Constants.CURRENT_TASK, Chore::class.java, null)
+        task.assignUser = profile!!.nickname
+        SharedPrefsUtil.getInstance(this).put(Constants.CURRENT_TASK, Chore::class.java, task)
         val intent =
             Intent(
                 this@AssignTaskActivity,

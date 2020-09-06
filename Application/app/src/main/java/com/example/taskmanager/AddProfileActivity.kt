@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import com.example.taskmanager.classes.Constants
 import com.example.taskmanager.classes.Profile
 import com.example.taskmanager.parentUI.HomeActivity
 import com.example.taskmanager.classes.SharedPrefsUtil
@@ -26,24 +27,31 @@ class AddProfileActivity : AppCompatActivity() {
 
     private fun createProfile() {
         val nickname: String = nickname_addP_et.text.toString().toLowerCase()
-        val userPin: String = pin_addP_et.text.toString()
+        val profilePin: String = pin_addP_et.text.toString()
 
         if (nickname == "") {
-            Toast.makeText(this@AddProfileActivity, "please write House Name.", Toast.LENGTH_SHORT)
+            nickname_addP_et.error = "Nickname require"
+            Toast.makeText(this@AddProfileActivity, "please enter Nickname.", Toast.LENGTH_SHORT)
                 .show()
-        } else if (userPin == "") {
-            Toast.makeText(this@AddProfileActivity, "please write House password.", Toast.LENGTH_SHORT)
+        } else if (profilePin == "") {
+            pin_addP_et.error = "Pin require"
+            Toast.makeText(this@AddProfileActivity, "please enter pin.", Toast.LENGTH_SHORT)
                 .show()
+        } else if(profilePin.length < 4){
+            pin_addP_et.error = "Pin require"
+            Toast.makeText(this@AddProfileActivity, "please a 4-digit pin.", Toast.LENGTH_SHORT)
+                .show()
+
         } else {
 
             //firebaseUserId = mAuth.currentUser!!.uid
-            val id = SharedPrefsUtil.getInstance(this).get("accountId","")
+            val id = SharedPrefsUtil.getInstance(this).get(Constants.CURRENT_ACCOUNT,"")
             refUsers = FirebaseDatabase.getInstance().reference.child("account").child(id).child("users")
 
             val userHashMap = HashMap<String, String>()  // holds user data
-            userHashMap["accountId"] = id
+            userHashMap[Constants.CURRENT_ACCOUNT] = id
             userHashMap["nickname"] = nickname
-            userHashMap["profilePin"] = userPin
+            userHashMap["profilePin"] = profilePin
             userHashMap["type"] = ""
             userHashMap["picture"]= "DEFAULT_USER_ICON"
             val pushRef = refUsers.push()
@@ -55,7 +63,7 @@ class AddProfileActivity : AppCompatActivity() {
                     val profile = Profile()
                     profile.fromMap(userHashMap)
                     profile.id = key
-                    SharedPrefsUtil.getInstance(this).put("CURRENT_PROFILE", Profile::class.java, profile)
+                    SharedPrefsUtil.getInstance(this).put(Constants.CURRENT_PROFILE, Profile::class.java, profile)
                     val intent =
                         Intent(
                             this@AddProfileActivity,
