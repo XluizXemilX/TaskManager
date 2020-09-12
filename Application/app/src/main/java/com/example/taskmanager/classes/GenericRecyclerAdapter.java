@@ -12,10 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.Collections;
 import java.util.List;
 
-/**
- *  Created by Carlos Guzmán on 2020/02/12.
- * @param <T>
- */
 public class GenericRecyclerAdapter<T> extends RecyclerView.Adapter<GenericRecyclerAdapter.MyViewHolder> {
 
     private List<T> data;

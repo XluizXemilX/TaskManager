@@ -19,7 +19,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.fragment_chore.*
 import kotlinx.android.synthetic.main.fragment_jobs.*
-import kotlinx.android.synthetic.main.task_box.view.*
+import kotlinx.android.synthetic.main.pay_box.view.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -121,6 +121,7 @@ class ChoreFragment : Fragment() {
 
                     val adapter = ArrayAdapter(context!!, android.R.layout.simple_list_item_1, listItems)
                     listview_chore.adapter = adapter
+
 
                 }
             }

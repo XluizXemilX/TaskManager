@@ -13,6 +13,24 @@ public class Chore {
     private String status;
     private String description;
     private String recurrence;
+    private String time;
+    private String startDate;
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
 
     public String getRecurrence() {
         return recurrence;

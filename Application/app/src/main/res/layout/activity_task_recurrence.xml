@@ -167,33 +167,27 @@
         android:id="@+id/task_reccurrence_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="200dp"
         android:layout_marginTop="84dp"
         android:background="@drawable/standard_box_gray_outisde"
-        android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@+id/textView21"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/task_due_date_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="262dp"
         android:layout_marginTop="4dp"
         android:background="@drawable/standard_box_gray_outisde"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/textView22"
         app:layout_constraintTop_toBottomOf="@+id/task_reccurrence_btn" />
 
     <Button
         android:id="@+id/task_pay_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="260dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/standard_box_gray_outisde"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView23"
         app:layout_constraintTop_toBottomOf="@+id/task_due_date_btn" />
 </androidx.constraintlayout.widget.ConstraintLayout>

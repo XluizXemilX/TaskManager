@@ -3,29 +3,36 @@ package com.example.taskmanager.parentUI.taskCreation
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.CompoundButton
+import android.text.TextUtils
+import android.view.LayoutInflater
+import android.view.View
 import android.widget.Toast
-import com.example.taskmanager.AddProfileActivity
+import androidx.appcompat.app.AlertDialog
+import com.appeaser.sublimepickerlibrary.datepicker.SelectedDate
+import com.appeaser.sublimepickerlibrary.helpers.SublimeOptions
+import com.appeaser.sublimepickerlibrary.recurrencepicker.SublimeRecurrencePicker
 import com.example.taskmanager.R
-import com.example.taskmanager.classes.Chore
-import com.example.taskmanager.classes.Constants
-import com.example.taskmanager.classes.Profile
-import com.example.taskmanager.classes.SharedPrefsUtil
+import com.example.taskmanager.classes.*
 import com.example.taskmanager.parentUI.HomeActivity
+import com.google.android.material.slider.Slider
 
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_task_recurrence.*
+import kotlinx.android.synthetic.main.pay_box.*
+import kotlinx.android.synthetic.main.pay_box.view.*
 
-class TaskSettingsActivity : AppCompatActivity() {
+class TaskSettingsActivity : AppCompatActivity() , SublimePickerDialogFragment.IRecurrenceTask {
 
     private lateinit var refUsers: DatabaseReference
+    private lateinit  var taskRef: Chore
+    private lateinit var alertDialog: AlertDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_task_recurrence)
 
-        val taskRef = SharedPrefsUtil.getInstance(this).get(Constants.CURRENT_TASK, Chore::class.java, null)
+        taskRef = SharedPrefsUtil.getInstance(this).get(Constants.CURRENT_TASK, Chore::class.java, null)
 
         back_arrow_task_settings.setOnClickListener {
             finish()
@@ -56,9 +63,27 @@ class TaskSettingsActivity : AppCompatActivity() {
             var bundle = Bundle()
             // put arguments into bundle
             sublimePickerDialogFragment.arguments = bundle
-            sublimePickerDialogFragment.isCancelable = false
+            sublimePickerDialogFragment.isCancelable = true
+            sublimePickerDialogFragment.recurrenceListener = this
             sublimePickerDialogFragment.show(fragmentManager,null)
+
             //sublimePickerDialogFragment.dismiss()
+        }
+        task_due_date_btn.setOnClickListener {
+            val fragmentManager = supportFragmentManager
+            var sublimePickerDialogFragment = SublimePickerDialogFragment()
+            var bundle = Bundle()
+            // put arguments into bundle
+
+
+            sublimePickerDialogFragment.arguments = bundle
+            sublimePickerDialogFragment.isCancelable = true
+            sublimePickerDialogFragment.recurrenceListener = this
+            sublimePickerDialogFragment.show(fragmentManager,null)
+        }
+
+        task_pay_btn.setOnClickListener {
+            setPayment()
         }
 
         photo_switch_task_settings.setOnCheckedChangeListener { _, isChecked ->
@@ -80,37 +105,46 @@ class TaskSettingsActivity : AppCompatActivity() {
         }
 
         finish_task_btn.setOnClickListener {
-            // finish updates the values of the task into firebase and send the user to home screen
-            //val dueDate =
-            //val recurrence =
-            //val pay =
 
             val id = SharedPrefsUtil.getInstance(this).get(Constants.CURRENT_ACCOUNT, "")
             refUsers = FirebaseDatabase.getInstance().reference.child("account").child(id)
                 .child("task")
 
+            if(TextUtils.isEmpty(taskRef.recurrence) || TextUtils.isEmpty(taskRef.time)) {
+                Toast.makeText(this, "Select a recurrence", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            if(TextUtils.isEmpty(taskRef.dueDate) || TextUtils.isEmpty(taskRef.startDate)) {
+                Toast.makeText(this, "Select a due date", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
             val userHashMap = HashMap<String, Any>()  // holds user data
             userHashMap[Constants.CURRENT_ACCOUNT] = id
             userHashMap["taskName"] = taskRef.taskName
             userHashMap["assignUser"] = taskRef.assignUser
             userHashMap["type"] = taskRef.type
-            userHashMap["dueDate"] = ""
+            userHashMap["dueDate"] = taskRef.dueDate
             userHashMap["photoRequired"] = taskRef.photoRequired
             userHashMap["verificationRequire"] = taskRef.verificationRequire
             userHashMap["pay"] = ""
             userHashMap["picture"] = ""
             userHashMap["status"] = Constants.STATUS_INCOMPLETE
             userHashMap["description"] = taskRef.description
+            userHashMap["recurrence"] = taskRef.recurrence
+            userHashMap["time"] = taskRef.time
+            userHashMap["startDate"] = taskRef.startDate
             val pushRef = refUsers.push()
             pushRef.setValue(userHashMap)
                 .addOnSuccessListener {
 
-                    val intent =
-                        Intent(
-                            this@TaskSettingsActivity,
-                            HomeActivity::class.java
-                        ) // send user to create a house if task is completed
-                    startActivity(intent)
+
+                        val intent =
+                            Intent(
+                                this@TaskSettingsActivity,
+                                HomeActivity::class.java
+                            ) // send user to create a house if task is completed
+                        startActivity(intent)
+
 
                 }
                 .addOnFailureListener {
@@ -122,5 +156,54 @@ class TaskSettingsActivity : AppCompatActivity() {
                 }
 
         }
+    }
+
+    override fun onRecurrenceSet(selectedDate: SelectedDate?, hourOfDay: Int, minute: Int, recurrenceOption: SublimeRecurrencePicker.RecurrenceOption?) {
+        taskRef.recurrence = recurrenceOption.toString()
+        taskRef.dueDate= DateUtils.formatDate(selectedDate?.secondDate?.time)
+        taskRef.startDate = DateUtils.formatDate(selectedDate?.firstDate?.time)
+        var hour: String
+        var sum:Int
+        if(hourOfDay > 12){
+            sum = hourOfDay - 12
+            hour = sum.toString() + "PM"
+            taskRef.time = sum.toString() + ":" + minute.toString() + " PM"
+        }
+        else {
+            hour = hourOfDay.toString() + "AM"
+            taskRef.time = hourOfDay.toString() + ":" + minute.toString() + " AM"
+        }
+        task_reccurrence_btn.text = taskRef.recurrence + " @" + hour
+        task_due_date_btn.text = taskRef.dueDate
+
+        SharedPrefsUtil.getInstance(this).put(Constants.CURRENT_TASK, Chore::class.java, taskRef)
+    }
+
+    private fun setPayment()
+    {
+        val dialogView: View = LayoutInflater.from(this).inflate(R.layout.pay_box, null)
+        val money = pay_box_et
+        dialogView.pay_value_ok_btn.setOnClickListener {
+            slider_money.addOnSliderTouchListener(object : Slider.OnSliderTouchListener{
+                override fun onStartTrackingTouch(slider: Slider) {
+
+                }
+
+                override fun onStopTrackingTouch(slider: Slider) {
+
+                }
+            })
+            slider_money.addOnChangeListener { slider, value, fromUser ->
+                money.setText(value.toString())
+            }
+        }
+
+        val dialogBuilder: AlertDialog.Builder = AlertDialog.Builder(this)
+        dialogBuilder.setOnDismissListener { }
+        dialogBuilder.setView(dialogView)
+
+        alertDialog = dialogBuilder.create()
+
+        alertDialog.show()
     }
 }

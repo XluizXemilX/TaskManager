@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.taskmanager.R
 import com.example.taskmanager.classes.*
@@ -14,16 +15,21 @@ class AssignTaskActivity : AppCompatActivity(),
     GenericRecyclerAdapter.GenericRecyclerListener<Profile> {
 
     private lateinit var refUsers: DatabaseReference
-
+    private lateinit var task: Chore
     private var postListener: ValueEventListener? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_assign_task)
 
+        task = SharedPrefsUtil.getInstance(this).get(Constants.CURRENT_TASK, Chore::class.java, null)
+
         back_assign_task_btn.setOnClickListener {
             finish()
         }
 
+        if(task.type == Constants.TYPE_CHORE){
+            free_for_all_tv.visibility = View.GONE
+        }
         free_for_all_tv.setOnClickListener{
             //leaves the assign as empty or all(only works with jobs)
             //if(task.type = "job")
@@ -72,7 +78,6 @@ class AssignTaskActivity : AppCompatActivity(),
     override fun onClick(profile: Profile?) {
 
         // needs to select profile and set it for the task
-        val task = SharedPrefsUtil.getInstance(this).get(Constants.CURRENT_TASK, Chore::class.java, null)
         task.assignUser = profile!!.nickname
         SharedPrefsUtil.getInstance(this).put(Constants.CURRENT_TASK, Chore::class.java, task)
         val intent =

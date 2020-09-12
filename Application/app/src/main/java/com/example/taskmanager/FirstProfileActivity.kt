@@ -1,9 +1,11 @@
 package com.example.taskmanager
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
@@ -62,7 +64,7 @@ class FirstProfileActivity : AppCompatActivity() {
             userHashMap["nickname"] = nickname
             userHashMap["profilePin"] = profilePin
             userHashMap["type"] = Constants.PARENT
-            userHashMap["picture"] = "DEFAULT_USER_ICON"
+            userHashMap["picture"] = "https://firebasestorage.googleapis.com/v0/b/choresapp-658eb.appspot.com/o/user_default_icon.xml?alt=media&token=b3fdf23a-12a2-4dd4-94a2-6ed93d91a27a"
             val pushRef = refUsers.push()
             val key = pushRef.key
             pushRef.setValue(userHashMap)
@@ -92,8 +94,18 @@ class FirstProfileActivity : AppCompatActivity() {
     }
 
     private fun pictureSelection(){
-        val dialogView: View = LayoutInflater.from(this@FirstProfileActivity).inflate(R.layout.task_box, null) // dialog box
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        startActivityForResult(intent, 0);
 
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == 0 && resultCode == Activity.RESULT_OK && data != null){
+            val uri = data.data
+            val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, uri)
+        }
     }
 
 }
