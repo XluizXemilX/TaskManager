@@ -17,9 +17,13 @@ class AssignTaskActivity : AppCompatActivity(),
     private lateinit var refUsers: DatabaseReference
     private lateinit var task: Chore
     private var postListener: ValueEventListener? = null
+    private var imageData: ByteArray? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_assign_task)
+
+        imageData =intent.getByteArrayExtra(Constants.TASK_IMAGE_DATA)
 
         task = SharedPrefsUtil.getInstance(this).get(Constants.CURRENT_TASK, Chore::class.java, null)
 
@@ -41,6 +45,7 @@ class AssignTaskActivity : AppCompatActivity(),
                     this@AssignTaskActivity,
                     TaskSettingsActivity::class.java
                 ) // send user to finish the task creation
+            intent.putExtra(Constants.TASK_IMAGE_DATA, imageData)
             startActivity(intent)
         }
 
@@ -85,6 +90,7 @@ class AssignTaskActivity : AppCompatActivity(),
                 this@AssignTaskActivity,
                 TaskSettingsActivity::class.java
             ) // send user to finish the task creation
+        intent.putExtra(Constants.TASK_IMAGE_DATA, imageData)
         startActivity(intent)
     }
 }

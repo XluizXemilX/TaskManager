@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
@@ -19,19 +20,21 @@ import com.google.android.material.slider.Slider
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_task_recurrence.*
-import kotlinx.android.synthetic.main.pay_box.*
-import kotlinx.android.synthetic.main.pay_box.view.*
+import java.lang.Exception
+
 
 class TaskSettingsActivity : AppCompatActivity() , SublimePickerDialogFragment.IRecurrenceTask {
 
     private lateinit var refUsers: DatabaseReference
     private lateinit  var taskRef: Chore
     private lateinit var alertDialog: AlertDialog
+    private var imageData: ByteArray? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_task_recurrence)
 
+        imageData =intent.getByteArrayExtra(Constants.TASK_IMAGE_DATA)
         taskRef = SharedPrefsUtil.getInstance(this).get(Constants.CURRENT_TASK, Chore::class.java, null)
 
         back_arrow_task_settings.setOnClickListener {
@@ -82,10 +85,6 @@ class TaskSettingsActivity : AppCompatActivity() , SublimePickerDialogFragment.I
             sublimePickerDialogFragment.show(fragmentManager,null)
         }
 
-        task_pay_btn.setOnClickListener {
-            setPayment()
-        }
-
         photo_switch_task_settings.setOnCheckedChangeListener { _, isChecked ->
             if(isChecked){
                 taskRef.photoRequired = "true"
@@ -106,56 +105,86 @@ class TaskSettingsActivity : AppCompatActivity() , SublimePickerDialogFragment.I
 
         finish_task_btn.setOnClickListener {
 
-            val id = SharedPrefsUtil.getInstance(this).get(Constants.CURRENT_ACCOUNT, "")
-            refUsers = FirebaseDatabase.getInstance().reference.child("account").child(id)
-                .child("task")
+            if (imageData !=null) {
+                ImageUtils.uploadImageToFirebase(imageData, object : ImageUtils.IImageUploaded {
+                    override fun onSuccess(uri: String?) {
+                        saveTask(uri)
+                    }
 
-            if(TextUtils.isEmpty(taskRef.recurrence) || TextUtils.isEmpty(taskRef.time)) {
-                Toast.makeText(this, "Select a recurrence", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
+                    override fun onFailure(ex: Exception?) {
+                        Toast.makeText(
+                            this@TaskSettingsActivity,
+                            ex!!.message,
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                })
+            } else {
+                saveTask(null)
             }
-            if(TextUtils.isEmpty(taskRef.dueDate) || TextUtils.isEmpty(taskRef.startDate)) {
-                Toast.makeText(this, "Select a due date", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-            val userHashMap = HashMap<String, Any>()  // holds user data
-            userHashMap[Constants.CURRENT_ACCOUNT] = id
-            userHashMap["taskName"] = taskRef.taskName
-            userHashMap["assignUser"] = taskRef.assignUser
-            userHashMap["type"] = taskRef.type
-            userHashMap["dueDate"] = taskRef.dueDate
-            userHashMap["photoRequired"] = taskRef.photoRequired
-            userHashMap["verificationRequire"] = taskRef.verificationRequire
-            userHashMap["pay"] = ""
-            userHashMap["picture"] = ""
-            userHashMap["status"] = Constants.STATUS_INCOMPLETE
-            userHashMap["description"] = taskRef.description
-            userHashMap["recurrence"] = taskRef.recurrence
-            userHashMap["time"] = taskRef.time
-            userHashMap["startDate"] = taskRef.startDate
-            val pushRef = refUsers.push()
-            pushRef.setValue(userHashMap)
-                .addOnSuccessListener {
-
-
-                        val intent =
-                            Intent(
-                                this@TaskSettingsActivity,
-                                HomeActivity::class.java
-                            ) // send user to create a house if task is completed
-                        startActivity(intent)
-
-
-                }
-                .addOnFailureListener {
-                    Toast.makeText(
-                        this,
-                        "Error Message: Something is wrong",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-
         }
+    }
+
+    private fun saveTask(imageUrl: String?){
+        val id = SharedPrefsUtil.getInstance(this).get(Constants.CURRENT_ACCOUNT, "")
+        val pay = task_pay_et?.text.toString()
+
+        refUsers = FirebaseDatabase.getInstance().reference.child("account").child(id)
+            .child("task")
+
+        if( task_pay_et!= null)
+            taskRef.pay = pay
+        if(TextUtils.isEmpty(taskRef.recurrence) || TextUtils.isEmpty(taskRef.time)) {
+            Toast.makeText(this, "Select a recurrence", Toast.LENGTH_SHORT).show()
+            return
+        }
+        if(TextUtils.isEmpty(taskRef.dueDate) || TextUtils.isEmpty(taskRef.startDate)) {
+            Toast.makeText(this, "Select a due date", Toast.LENGTH_SHORT).show()
+            return
+        }
+        if(TextUtils.isEmpty(taskRef.pay) && taskRef.type == Constants.TYPE_JOB){
+            Toast.makeText(this, "Enter a payment amount", Toast.LENGTH_SHORT).show()
+            return
+        }
+        val userHashMap = HashMap<String, String?>()  // holds user data
+        userHashMap[Constants.CURRENT_ACCOUNT] = id
+        userHashMap["taskName"] = taskRef.taskName
+        userHashMap["assignUser"] = taskRef.assignUser
+        userHashMap["type"] = taskRef.type
+        userHashMap["dueDate"] = taskRef.dueDate
+        userHashMap["photoRequired"] = taskRef.photoRequired
+        userHashMap["verificationRequire"] = taskRef.verificationRequire
+        userHashMap["pay"] = "$" + taskRef.pay
+
+        if (!TextUtils.isEmpty(imageUrl)) {
+            userHashMap["picture"] = imageUrl
+        }
+        userHashMap["status"] = Constants.STATUS_INCOMPLETE
+        userHashMap["description"] = taskRef.description
+        userHashMap["recurrence"] = taskRef.recurrence
+        userHashMap["time"] = taskRef.time
+        userHashMap["startDate"] = taskRef.startDate
+        val pushRef = refUsers.push()
+        pushRef.setValue(userHashMap)
+            .addOnSuccessListener {
+
+
+                val intent =
+                    Intent(
+                        this@TaskSettingsActivity,
+                        HomeActivity::class.java
+                    ) // send user to create a house if task is completed
+                startActivity(intent)
+
+
+            }
+            .addOnFailureListener {
+                Toast.makeText(
+                    this,
+                    "Error Message: Something is wrong",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
     }
 
     override fun onRecurrenceSet(selectedDate: SelectedDate?, hourOfDay: Int, minute: Int, recurrenceOption: SublimeRecurrencePicker.RecurrenceOption?) {
@@ -177,33 +206,5 @@ class TaskSettingsActivity : AppCompatActivity() , SublimePickerDialogFragment.I
         task_due_date_btn.text = taskRef.dueDate
 
         SharedPrefsUtil.getInstance(this).put(Constants.CURRENT_TASK, Chore::class.java, taskRef)
-    }
-
-    private fun setPayment()
-    {
-        val dialogView: View = LayoutInflater.from(this).inflate(R.layout.pay_box, null)
-        val money = pay_box_et
-        dialogView.pay_value_ok_btn.setOnClickListener {
-            slider_money.addOnSliderTouchListener(object : Slider.OnSliderTouchListener{
-                override fun onStartTrackingTouch(slider: Slider) {
-
-                }
-
-                override fun onStopTrackingTouch(slider: Slider) {
-
-                }
-            })
-            slider_money.addOnChangeListener { slider, value, fromUser ->
-                money.setText(value.toString())
-            }
-        }
-
-        val dialogBuilder: AlertDialog.Builder = AlertDialog.Builder(this)
-        dialogBuilder.setOnDismissListener { }
-        dialogBuilder.setView(dialogView)
-
-        alertDialog = dialogBuilder.create()
-
-        alertDialog.show()
     }
 }

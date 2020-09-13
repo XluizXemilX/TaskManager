@@ -19,7 +19,7 @@ import com.example.taskmanager.parentUI.taskCreation.AddTaskActivity
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_switch_accounts.*
 import kotlinx.android.synthetic.main.fragment_jobs.*
-import kotlinx.android.synthetic.main.pay_box.view.*
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER

@@ -13,5 +13,6 @@ public class Constants {
     public final static String STATUS_FAILED = "Failed";
     public final static int REQUEST_CODE = 42;
     public final static String FILE_NAME_PHOTO = "photo.jpg";
+    public final static String TASK_IMAGE_DATA = "TASK_IMAGE_DATA";
 
 }

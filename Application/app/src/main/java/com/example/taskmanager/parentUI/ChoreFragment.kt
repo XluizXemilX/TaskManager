@@ -19,7 +19,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.fragment_chore.*
 import kotlinx.android.synthetic.main.fragment_jobs.*
-import kotlinx.android.synthetic.main.pay_box.view.*
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -54,8 +54,6 @@ class ChoreFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_chore, container, false)
-
-
     }
 
 
@@ -103,7 +101,6 @@ class ChoreFragment : Fragment() {
         if (postListener != null)
             return
 
-
         val listItems = arrayListOf<String>()
         refUsers =FirebaseDatabase.getInstance().reference.child("account").child(SharedPrefsUtil.getInstance(context).get(Constants.CURRENT_ACCOUNT, "")).child("task")
         val taskRef = refUsers
@@ -118,11 +115,8 @@ class ChoreFragment : Fragment() {
                             listItems.add(chore.taskName)
                         }
                     }
-
                     val adapter = ArrayAdapter(context!!, android.R.layout.simple_list_item_1, listItems)
                     listview_chore.adapter = adapter
-
-
                 }
             }
 
@@ -133,4 +127,7 @@ class ChoreFragment : Fragment() {
         }
         taskRef.addListenerForSingleValueEvent(postListener as ValueEventListener)
     }
+    //onClick()
+    //SharePrefUtil.getInstance(context).put(Constants.CURRENT_TASK, Chore::class.java, task)
+
 }

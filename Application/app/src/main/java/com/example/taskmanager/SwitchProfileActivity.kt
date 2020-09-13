@@ -21,7 +21,7 @@ import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_add_profile.view.*
 import kotlinx.android.synthetic.main.activity_switch_accounts.*
 import kotlinx.android.synthetic.main.pin_validation.view.*
-import kotlinx.android.synthetic.main.pay_box.view.*
+
 
 
 class SwitchProfileActivity :  AppCompatActivity(), GenericRecyclerAdapter.GenericRecyclerListener<Profile> {

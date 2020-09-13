@@ -129,7 +129,7 @@
         android:layout_marginStart="232dp"
         android:layout_marginTop="15dp"
         app:layout_constraintStart_toEndOf="@+id/textView24"
-        app:layout_constraintTop_toBottomOf="@+id/task_pay_btn" />
+        app:layout_constraintTop_toBottomOf="@+id/task_pay_et" />
 
     <ImageButton
         android:id="@+id/info_recurrence_btn"
@@ -182,12 +182,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/task_reccurrence_btn" />
 
-    <Button
-        android:id="@+id/task_pay_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <EditText
+        android:id="@+id/task_pay_et"
+        android:layout_width="88dp"
+        android:layout_height="49dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/standard_box_gray_outisde"
+        android:inputType="numberDecimal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/task_due_date_btn" />
 </androidx.constraintlayout.widget.ConstraintLayout>

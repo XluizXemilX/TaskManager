@@ -12,12 +12,14 @@ import androidx.core.content.FileProvider
 import com.example.taskmanager.R
 import com.example.taskmanager.classes.Chore
 import com.example.taskmanager.classes.Constants
+import com.example.taskmanager.classes.ImageUtils
 import com.example.taskmanager.classes.SharedPrefsUtil
 import kotlinx.android.synthetic.main.activity_detail_task.*
-import java.io.File
 
-private lateinit var photoFile: File
 class DetailTaskActivity : AppCompatActivity() {
+
+    private var imageData: ByteArray? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_task)
@@ -35,11 +37,6 @@ class DetailTaskActivity : AppCompatActivity() {
         task_camera_btn.setOnClickListener {
             val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 
-//            photoFile = getPhotoFile(Constants.FILE_NAME_PHOTO)
-//
-//            val fileProvider = FileProvider.getUriForFile(this, "com.example.taskmanager.parentUI.taskCreation.fileprovider",
-//                photoFile)
-//            intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider)
             if(intent.resolveActivity(this.packageManager)!= null){
                 startActivityForResult(intent,Constants.REQUEST_CODE)
             } else {
@@ -52,18 +49,16 @@ class DetailTaskActivity : AppCompatActivity() {
         }
     }
 
+
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if(requestCode == Constants.REQUEST_CODE && resultCode == Activity.RESULT_OK){
             var image = data?.extras?.get("data") as Bitmap
+            imageData = ImageUtils.getImageBytes(image)
             image_task_detail.setImageBitmap(image)
         }else {
             super.onActivityResult(requestCode, resultCode, data)
         }
-    }
-
-    private fun getPhotoFile(filename: String): File {
-        val storageDirectory = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-        return File.createTempFile(filename, ".jpg",storageDirectory)
     }
 
     private fun setTaskInfo(){
@@ -85,8 +80,8 @@ class DetailTaskActivity : AppCompatActivity() {
                     this,
                     AssignTaskActivity::class.java
                 ) // send user to create a house if task is completed
+            intent.putExtra(Constants.TASK_IMAGE_DATA, imageData)
             startActivity(intent)
         }
-
     }
 }

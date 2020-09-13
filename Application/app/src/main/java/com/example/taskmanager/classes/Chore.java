@@ -15,6 +15,15 @@ public class Chore {
     private String recurrence;
     private String time;
     private String startDate;
+    private String pay;
+
+    public String getPay() {
+        return pay;
+    }
+
+    public void setPay(String pay) {
+        this.pay = pay;
+    }
 
     public String getStartDate() {
         return startDate;

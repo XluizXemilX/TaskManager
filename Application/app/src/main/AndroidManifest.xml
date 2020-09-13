@@ -35,7 +35,7 @@
         <activity android:name=".LoginActivity" />
         <activity android:name=".MainLoginActivity" />
         <activity android:name=".RegisterActivity" />
-        <activity android:name=".parentUI.HomeActivity">
+        <activity android:name=".parentUI.HomeActivity" android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

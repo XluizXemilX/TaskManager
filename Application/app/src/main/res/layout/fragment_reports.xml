@@ -9,13 +9,4 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-    <com.google.android.material.slider.Slider
-        android:layout_gravity="center"
-        app:labelBehavior="withinBounds"
-        android:value="60"
-        android:valueFrom="0.0"
-        android:valueTo="100.0"
-        android:layout_height="47dp"
-        android:layout_width="392dp" />
-
 </FrameLayout>
