@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.taskmanager">
-    <!-- <uses-permission android:name="android.permission.CAMERA" /> -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
@@ -13,14 +12,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".parentUI.taskCreation.TaskCompleted"></activity>
-        <!-- <provider -->
-        <!-- android:authorities="com.example.taskmanager.parentUI.taskCreation.fileprovider" -->
-        <!-- android:name="androidx.core.content.FileProvider" -->
-        <!-- android:exported="false" -->
-        <!-- android:grantUriPermissions="true"> -->
-        <!-- <meta-data -->
-        <!-- android:name="android.support.File_PROVIDER_PATHS" -->
-        <!-- </provider> -->
         <activity android:name=".parentUI.taskCreation.TaskSettingsActivity" />
         <activity android:name=".parentUI.taskCreation.AssignTaskActivity" />
         <activity android:name=".parentUI.taskCreation.DetailTaskActivity" />

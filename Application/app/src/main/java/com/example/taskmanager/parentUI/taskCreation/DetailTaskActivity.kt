@@ -1,8 +1,11 @@
 package com.example.taskmanager.parentUI.taskCreation
 
+import android.Manifest
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
@@ -45,7 +48,21 @@ class DetailTaskActivity : AppCompatActivity() {
         }
 
         task_gallery_btn.setOnClickListener {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if ((checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED)
+                    && (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED)
+                ) {
+                    val permission = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
+                    val permissionCoarse = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
+                    requestPermissions(permission, Constants.PERMISSION_CODE_READ)
+                    requestPermissions(permissionCoarse, Constants.PERMISSION_CODE_WRITE)
+                } else {
+                    val intent = Intent(Intent.ACTION_PICK)
+                    intent.type = "image/*"
+                    startActivityForResult(intent, Constants.REQUEST_CODE)
+                }
+            }
         }
     }
 

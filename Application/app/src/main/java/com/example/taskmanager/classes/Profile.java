@@ -9,6 +9,15 @@ public class Profile {
     private String accountId;
     private String profilePin;
     private String picture;
+    private String bank;
+
+    public String getBank() {
+        return bank;
+    }
+
+    public void setBank(String bank) {
+        this.bank = bank;
+    }
 
     public String getAccountId() {
         return accountId;
