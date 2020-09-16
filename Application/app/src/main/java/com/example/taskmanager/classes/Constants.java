@@ -11,11 +11,11 @@ public class Constants {
     public final static String STATUS_INCOMPLETE = "Incomplete";
     public final static String STATUS_COMPLETE = "Complete";
     public final static String STATUS_FAILED = "Failed";
-    public final static int REQUEST_CODE = 42;
-    public final static String FILE_NAME_PHOTO = "photo.jpg";
+    public final static int REQUEST_CODE_CAMERA = 42;
+    public final static int REQUEST_CODE_GALLERY = 43;
     public final static String TASK_IMAGE_DATA = "TASK_IMAGE_DATA";
     public final static int PERMISSION_CODE_READ = 35;
     public final static int PERMISSION_CODE_WRITE = 34;
-    public final static int IMAGE_PICK_CODE = 100;
+
 
 }

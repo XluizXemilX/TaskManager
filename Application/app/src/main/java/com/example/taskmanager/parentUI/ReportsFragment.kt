@@ -1,6 +1,5 @@
 package com.example.taskmanager.parentUI
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -10,12 +9,8 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.taskmanager.R
-import com.example.taskmanager.classes.Constants
-import com.example.taskmanager.classes.GenericRecyclerAdapter
-import com.example.taskmanager.classes.Profile
-import com.example.taskmanager.classes.SharedPrefsUtil
+import com.example.taskmanager.classes.*
 import com.google.firebase.database.*
-import kotlinx.android.synthetic.main.activity_switch_accounts.*
 import kotlinx.android.synthetic.main.fragment_reports.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -28,7 +23,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [ReportsFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class ReportsFragment : Fragment(), GenericRecyclerAdapter.GenericRecyclerListener<Profile> {
+class ReportsFragment : Fragment(), GenericRecyclerAdapter.GenericRecyclerListener<TaskReportCard> {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -53,26 +48,42 @@ class ReportsFragment : Fragment(), GenericRecyclerAdapter.GenericRecyclerListen
         return inflater.inflate(R.layout.fragment_reports, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    fun getTaskReportCard(){
 
-        val listProfiles = ArrayList<Profile>()
-        refUsers = FirebaseDatabase.getInstance().reference.child("account").child(
-            SharedPrefsUtil.getInstance(context).get(
-                Constants.CURRENT_ACCOUNT, "")).child("users")
-        val profileRef = refUsers
-        val thisContext =  this
-        postListener = object : ValueEventListener {
+
+        val taskRef = FirebaseDatabase.getInstance().reference.child("account").child(SharedPrefsUtil.getInstance(context).get(Constants.CURRENT_ACCOUNT, "")).child("task")
+
+        val thisContext = this
+        val listener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if(dataSnapshot.exists()){
-                    listProfiles.clear()
+
+                    val listTaskReportCards = ArrayList<Profile>()
+                    val taskReportCardMap = HashMap<String, TaskReportCard?>()
+
                     for (e in dataSnapshot.children) {
-                        val profile = e.getValue(Profile::class.java)
-                        profile!!.id = e.key
-                        listProfiles.add(profile)
+                        val chore = e.getValue(Chore::class.java)
+
+                        var taskReportCard: TaskReportCard? = taskReportCardMap.get(chore!!.assignUser)
+
+                        if (taskReportCard == null) {
+                            taskReportCard = TaskReportCard()
+                            taskReportCard!!.profile = chore.assignUser
+                            taskReportCard!!.picture = chore.userPhoto
+                            taskReportCardMap.put(chore.assignUser, taskReportCard)
+                        }
+
+                        if (chore.status.equals(Constants.STATUS_COMPLETE)) {
+                            taskReportCard.completed++
+                        } else if (chore.status.equals(Constants.STATUS_INCOMPLETE)) {
+                            taskReportCard.upcoming++
+                        } else {
+                            taskReportCard.failed++
+                        }
                     }
                     reports_recyclerview.layoutManager = GridLayoutManager(context, 1);
-                    var adapter = GenericRecyclerAdapter(listProfiles, R.layout.row_reports_layout)
-                    adapter.listener = thisContext
+                    var adapter = GenericRecyclerAdapter(taskReportCardMap.values.toList(), R.layout.row_reports_layout)
+                    adapter.listener = thisContext as GenericRecyclerAdapter.GenericRecyclerListener<TaskReportCard?>
                     reports_recyclerview.adapter = adapter
 
                 }
@@ -84,10 +95,14 @@ class ReportsFragment : Fragment(), GenericRecyclerAdapter.GenericRecyclerListen
             }
 
         }
-        profileRef.addListenerForSingleValueEvent(postListener as ValueEventListener)
+        taskRef.addListenerForSingleValueEvent(listener as ValueEventListener)
+
+
     }
 
-    override fun onClick(profile: Profile?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        getTaskReportCard()
 
     }
 
@@ -109,5 +124,8 @@ class ReportsFragment : Fragment(), GenericRecyclerAdapter.GenericRecyclerListen
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+
+    override fun onClick(d: TaskReportCard?) {
     }
 }

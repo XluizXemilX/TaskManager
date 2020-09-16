@@ -16,6 +16,7 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.security.InvalidParameterException;
+import java.util.UUID;
 
 public class ImageUtils {
 
@@ -41,8 +42,13 @@ public class ImageUtils {
         return baos.toByteArray();
     }
 
-    public static void uploadImageToFirebase(byte[] imageBytes, IImageUploaded callbacks ) {
-        StorageReference storageRef = FirebaseStorage.getInstance().getReference().child("task-pictures");
+    public static void uploadTaskImageToFirebase(byte[] imageBytes,  IImageUploaded callbacks ) {
+        uploadImageToFirebase(imageBytes, "task-pictures", callbacks);
+    }
+
+        private static void uploadImageToFirebase(byte[] imageBytes, String folder,  IImageUploaded callbacks ) {
+
+        StorageReference storageRef = FirebaseStorage.getInstance().getReference().child(folder).child(UUID.randomUUID().toString());
         UploadTask uploadTask = storageRef.putBytes(imageBytes);
         uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override

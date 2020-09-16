@@ -106,7 +106,7 @@ class TaskSettingsActivity : AppCompatActivity() , SublimePickerDialogFragment.I
         finish_task_btn.setOnClickListener {
 
             if (imageData !=null) {
-                ImageUtils.uploadImageToFirebase(imageData, object : ImageUtils.IImageUploaded {
+                ImageUtils.uploadTaskImageToFirebase(imageData, object : ImageUtils.IImageUploaded {
                     override fun onSuccess(uri: String?) {
                         saveTask(uri)
                     }
@@ -164,6 +164,7 @@ class TaskSettingsActivity : AppCompatActivity() , SublimePickerDialogFragment.I
         userHashMap["recurrence"] = taskRef.recurrence
         userHashMap["time"] = taskRef.time
         userHashMap["startDate"] = taskRef.startDate
+        userHashMap["userPhoto"] = taskRef.userPhoto
         val pushRef = refUsers.push()
         pushRef.setValue(userHashMap)
             .addOnSuccessListener {

@@ -84,6 +84,7 @@ class AssignTaskActivity : AppCompatActivity(),
 
         // needs to select profile and set it for the task
         task.assignUser = profile!!.nickname
+        task.userPhoto = profile!!.picture
         SharedPrefsUtil.getInstance(this).put(Constants.CURRENT_TASK, Chore::class.java, task)
         val intent =
             Intent(

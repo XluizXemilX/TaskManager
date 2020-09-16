@@ -3,6 +3,7 @@ package com.example.taskmanager.classes;
 public class Chore {
     private String taskName;
     private String assignUser;
+    private String userPhoto;
     private String dueDate;
     private String accountId;
     private String photoRequired = "false";
@@ -135,5 +136,13 @@ public class Chore {
 
     public String getAssignUser() {
         return assignUser;
+    }
+
+    public String getUserPhoto() {
+        return userPhoto;
+    }
+
+    public void setUserPhoto(String userPhoto) {
+        this.userPhoto = userPhoto;
     }
 }
