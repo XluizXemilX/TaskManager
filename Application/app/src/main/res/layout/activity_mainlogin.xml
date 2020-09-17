@@ -40,11 +40,11 @@
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="148dp"
-        android:layout_marginTop="168dp"
+        android:layout_width="274dp"
+        android:layout_height="274dp"
+        android:layout_marginStart="68dp"
+        android:layout_marginTop="68dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_launcher_background" />
+        app:srcCompat="@drawable/polar_bear_logo" />
 </androidx.constraintlayout.widget.ConstraintLayout>
