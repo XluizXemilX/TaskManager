@@ -85,7 +85,7 @@ class DetailTaskActivity : AppCompatActivity() {
             if (cursor == null || cursor.count < 1) {
                 return
             }
-            cursor!!.moveToFirst()
+            cursor.moveToFirst()
             val columnIndex: Int = cursor.getColumnIndex(filePathColumn[0])
             if (columnIndex >= 0) {
                 val bitmap = BitmapFactory.decodeFile(cursor.getString(columnIndex))

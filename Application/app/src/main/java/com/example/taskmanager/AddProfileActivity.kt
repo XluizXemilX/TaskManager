@@ -85,7 +85,7 @@ class AddProfileActivity : AppCompatActivity() {
             userHashMap["nickname"] = nickname
             userHashMap["profilePin"] = profilePin
             userHashMap["type"] = profile_type_spn.selectedItem.toString()
-            userHashMap["picture"]= "DEFAULT_USER_ICON"
+            userHashMap["picture"]= "https://firebasestorage.googleapis.com/v0/b/choresapp-658eb.appspot.com/o/user_default_icon.xml?alt=media&token=b3fdf23a-12a2-4dd4-94a2-6ed93d91a27a"
             val pushRef = refUsers.push()
             val key = pushRef.key
             pushRef.setValue(userHashMap)
