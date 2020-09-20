@@ -9,7 +9,7 @@
 
         <variable
             name="model"
-            type="com.example.taskmanager.classes.Profile" />
+            type="com.example.taskmanager.classes.Chore" />
 
     </data>
 
@@ -32,31 +32,38 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:gravity="center|start"
+            android:orientation="vertical"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp">
 
             <ImageView
-                android:id="@+id/wallet_profile"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:id="@+id/profile_photo"
+                android:layout_width="55dp"
+                android:layout_height="51dp"
                 android:layout_marginTop="4dp"
-                app:userIcon='@{model.picture}' />
+                app:srcCompat="@drawable/chores_icon" />
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/profile_nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text='@{model.taskName, default="LUIS EMIL"}'
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textSize="20sp" />
+
+            <View
+                android:id="@+id/divider5"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:background="?attr/listChoiceBackgroundIndicator" />
+
+            <TextView
+                android:id="@+id/money_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:paddingTop="3dp"
-                android:text="$0.00" />
-
-            <TextView
-                android:id="@+id/wallet_nickname"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text='@{model.nickname, default="LUIS EMIL"}'
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textSize="20sp" />
+                android:text='@{model.dueDate, default="$0.00"}' />
 
         </LinearLayout>
 

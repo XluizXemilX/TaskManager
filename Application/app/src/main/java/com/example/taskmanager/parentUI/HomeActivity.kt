@@ -37,14 +37,6 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         val profile = SharedPrefsUtil.getInstance(this).get(Constants.CURRENT_PROFILE, Profile::class.java, null)// current profile
 
-        //check if the user is login or not
-        val uid = FirebaseAuth.getInstance().uid
-        if(uid == null){
-            val intent = Intent(this, SplashScreen::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-            startActivity(intent)
-        }
-        
         //toolbar and nav drawer
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)        //sets the toolbar
@@ -62,6 +54,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         navView.inflateMenu(R.menu.drawer_view)
         if(profile.type == Constants.CHILD){
             navView.menu.removeItem(R.id.parent_nav_bank_account)
+            navView.menu.removeItem(R.id.parent_nav_settings)
         }
         navView.setNavigationItemSelectedListener(this)
         toggle.drawerArrowDrawable.color = resources.getColor(R.color.colorAppBlue, theme);

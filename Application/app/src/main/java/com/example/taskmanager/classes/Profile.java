@@ -10,6 +10,15 @@ public class Profile {
     private String profilePin;
     private String picture;
     private String bank;
+    private String balance;
+
+    public String getBalance() {
+        return balance;
+    }
+
+    public void setBalance(String money) {
+        this.balance = money;
+    }
 
     public String getBank() {
         return bank;
@@ -26,8 +35,6 @@ public class Profile {
     public void setAccountId(String accountId) {
         this.accountId = accountId;
     }
-
-
 
     public String getNickname() {
         return nickname;
@@ -69,7 +76,6 @@ public class Profile {
         this.picture = picture;
     }
 
-
     public void fromMap(Map<String, String> map){
         this.nickname = map.get("nickname");
         this.type = map.get("type");
@@ -78,6 +84,4 @@ public class Profile {
         this.profilePin = map.get("profilePin");
         this.id = map.get("id");
     }
-
-
 }

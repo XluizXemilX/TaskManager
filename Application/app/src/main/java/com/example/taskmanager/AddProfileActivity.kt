@@ -3,27 +3,35 @@ package com.example.taskmanager
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
-import com.example.taskmanager.classes.Constants
-import com.example.taskmanager.classes.Profile
+import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.GridLayoutManager
+import com.example.taskmanager.classes.*
 import com.example.taskmanager.parentUI.HomeActivity
-import com.example.taskmanager.classes.SharedPrefsUtil
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_add_profile.*
+import kotlinx.android.synthetic.main.icons_dialog.view.*
 
 class AddProfileActivity : AppCompatActivity() {
 
     private lateinit var refUsers: DatabaseReference
+    private lateinit var selectedUserIcon: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_profile)
 
         addP_btn.setOnClickListener {
             createProfile()
+        }
+
+        add_profile_change_pic.setOnClickListener {
+            changePicture()
         }
 
         val types = resources.getStringArray(R.array.types)// array for the spinner
@@ -85,7 +93,9 @@ class AddProfileActivity : AppCompatActivity() {
             userHashMap["nickname"] = nickname
             userHashMap["profilePin"] = profilePin
             userHashMap["type"] = profile_type_spn.selectedItem.toString()
-            userHashMap["picture"]= "https://firebasestorage.googleapis.com/v0/b/choresapp-658eb.appspot.com/o/user_default_icon.xml?alt=media&token=b3fdf23a-12a2-4dd4-94a2-6ed93d91a27a"
+            userHashMap["picture"] = selectedUserIcon ?: Constants.USER_ICON_DEFAULT
+            //userHashMap["bank"]=
+            //userHashMap["balance"] =
             val pushRef = refUsers.push()
             val key = pushRef.key
             pushRef.setValue(userHashMap)
@@ -113,5 +123,32 @@ class AddProfileActivity : AppCompatActivity() {
                     ).show()
                 }
         }
+    }
+
+    private fun changePicture(){
+
+        val dialogBuilder: AlertDialog.Builder = AlertDialog.Builder(this)
+        val dialogView: View = LayoutInflater.from(this).inflate(R.layout.icons_dialog, null)
+        dialogBuilder.setView(dialogView)
+        dialogBuilder.setOnDismissListener { }
+        val alertDialog = dialogBuilder.create()
+
+        val listProfiles = ArrayList<Profile>()
+        ImageUtils.getUserIcons().forEach {
+            val profile =  Profile()
+            profile.picture = it
+            listProfiles.add(profile)
+        }
+        dialogView.icons_recycler.layoutManager = GridLayoutManager(this, 2);
+        var adapter = GenericRecyclerAdapter(listProfiles, R.layout.row_bank_layout)
+        adapter.listener = GenericRecyclerAdapter.GenericRecyclerListener {
+
+            selectedUserIcon = it.picture
+            DataBindingAdapters.setImageResourceByName(add_profile_picture, it.picture)
+            alertDialog.dismiss()
+        }
+        dialogView.icons_recycler.adapter = adapter
+
+        alertDialog.show()
     }
 }

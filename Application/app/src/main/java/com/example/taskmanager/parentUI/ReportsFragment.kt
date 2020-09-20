@@ -2,15 +2,17 @@ package com.example.taskmanager.parentUI
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.taskmanager.R
 import com.example.taskmanager.classes.*
-import com.google.firebase.database.*
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.fragment_reports.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -28,10 +30,6 @@ class ReportsFragment : Fragment(), GenericRecyclerAdapter.GenericRecyclerListen
     private var param1: String? = null
     private var param2: String? = null
 
-    private lateinit var refUsers: DatabaseReference
-    private var postListener: ValueEventListener? = null
-    private lateinit var alertDialog: AlertDialog
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -48,7 +46,7 @@ class ReportsFragment : Fragment(), GenericRecyclerAdapter.GenericRecyclerListen
         return inflater.inflate(R.layout.fragment_reports, container, false)
     }
 
-    fun getTaskReportCard(){
+    private fun getTaskReportCard(){
 
 
         val taskRef = FirebaseDatabase.getInstance().reference.child("account").child(SharedPrefsUtil.getInstance(context).get(Constants.CURRENT_ACCOUNT, "")).child("task")
@@ -58,7 +56,6 @@ class ReportsFragment : Fragment(), GenericRecyclerAdapter.GenericRecyclerListen
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if(dataSnapshot.exists()){
 
-                    val listTaskReportCards = ArrayList<Profile>()
                     val taskReportCardMap = HashMap<String, TaskReportCard?>()
 
                     for (e in dataSnapshot.children) {
@@ -68,8 +65,8 @@ class ReportsFragment : Fragment(), GenericRecyclerAdapter.GenericRecyclerListen
 
                         if (taskReportCard == null) {
                             taskReportCard = TaskReportCard()
-                            taskReportCard!!.profile = chore.assignUser
-                            taskReportCard!!.picture = chore.userPhoto
+                            taskReportCard.profile = chore.assignUser
+                            taskReportCard.picture = chore.userPhoto
                             taskReportCardMap.put(chore.assignUser, taskReportCard)
                         }
 
@@ -127,5 +124,7 @@ class ReportsFragment : Fragment(), GenericRecyclerAdapter.GenericRecyclerListen
     }
 
     override fun onClick(d: TaskReportCard?) {
+        SharedPrefsUtil.getInstance(context).put(Constants.CURRENT_TASK_PROFILE, d!!.profile)
+
     }
 }

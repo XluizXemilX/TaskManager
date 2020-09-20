@@ -44,11 +44,11 @@
                 app:userIcon='@{model.picture}' />
 
             <TextView
-                android:id="@+id/bank_status_tv"
+                android:id="@+id/money_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="$0.00" />
+                android:text='@{model.balance, default="$0.00"}' />
 
             <TextView
                 android:id="@+id/profile_nickname"

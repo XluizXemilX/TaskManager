@@ -5,7 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:backgroundTint="@color/colorWhiteBackground"
-    tools:context=".MainLoginActivity">
+    tools:context=".MainLoginActivity"
+    tools:flow_verticalAlign="center">
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="274dp"
+        android:layout_height="274dp"
+        android:layout_marginStart="68dp"
+        android:layout_marginTop="72dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/polar_bear_logo" />
 
     <Button
         android:id="@+id/createHouse_btn"
@@ -38,13 +49,4 @@
         app:layout_constraintTop_toBottomOf="@+id/createHouse_btn"
         app:layout_constraintVertical_bias="0.0" />
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="274dp"
-        android:layout_height="274dp"
-        android:layout_marginStart="68dp"
-        android:layout_marginTop="68dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/polar_bear_logo" />
 </androidx.constraintlayout.widget.ConstraintLayout>

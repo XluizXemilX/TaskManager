@@ -74,7 +74,7 @@ class RegisterActivity : AppCompatActivity() {
 
                         SharedPrefsUtil.getInstance(this).put(Constants.CURRENT_ACCOUNT, firebaseUserId)
                         refUsers.updateChildren(userHashMap)
-                            .addOnCompleteListener { task ->
+                            .addOnCompleteListener { _ ->
                                 if (task.isSuccessful) {
                                     val intent =
                                         Intent(this@RegisterActivity, FirstProfileActivity::class.java) // send user to create a house if task is completed

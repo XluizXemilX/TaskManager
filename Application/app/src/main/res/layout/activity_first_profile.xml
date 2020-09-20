@@ -68,7 +68,7 @@
         android:id="@+id/first_profile_chage_pic"
         android:layout_width="51dp"
         android:layout_height="34dp"
-        android:layout_marginTop="144dp"
+        android:layout_marginTop="156dp"
         android:background="@drawable/box"
         android:elevation="3dp"
         android:gravity="center"

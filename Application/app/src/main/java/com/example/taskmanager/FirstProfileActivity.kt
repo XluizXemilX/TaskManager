@@ -9,18 +9,22 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
-import com.example.taskmanager.classes.Constants
-import com.example.taskmanager.classes.Profile
-import com.example.taskmanager.classes.SharedPrefsUtil
+import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.GridLayoutManager
+import com.example.taskmanager.classes.*
 import com.example.taskmanager.parentUI.HomeActivity
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import kotlinx.android.synthetic.main.activity_bank_account.*
 import kotlinx.android.synthetic.main.activity_first_profile.*
+import kotlinx.android.synthetic.main.icons_dialog.view.*
+import kotlinx.android.synthetic.main.pin_validation.view.*
 
 class FirstProfileActivity : AppCompatActivity() {
 
 
     private lateinit var refUsers: DatabaseReference
+    private lateinit var selectedUserIcon: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,9 +37,10 @@ class FirstProfileActivity : AppCompatActivity() {
         }
 
         first_profile_chage_pic.setOnClickListener {
-            pictureSelection()
+            changePicture()
         }
     }
+
 
     private fun createProfile() {
         val nickname: String = houseName_register.text.toString().toLowerCase()
@@ -64,7 +69,9 @@ class FirstProfileActivity : AppCompatActivity() {
             userHashMap["nickname"] = nickname
             userHashMap["profilePin"] = profilePin
             userHashMap["type"] = Constants.PARENT
-            userHashMap["picture"] = "https://firebasestorage.googleapis.com/v0/b/choresapp-658eb.appspot.com/o/user_default_icon.xml?alt=media&token=b3fdf23a-12a2-4dd4-94a2-6ed93d91a27a"
+            userHashMap["picture"] = selectedUserIcon ?: Constants.USER_ICON_DEFAULT
+            //userHashMap["bank"]=
+            //userHashMap["balance]=
             val pushRef = refUsers.push()
             val key = pushRef.key
             pushRef.setValue(userHashMap)
@@ -93,19 +100,30 @@ class FirstProfileActivity : AppCompatActivity() {
         }
     }
 
-    private fun pictureSelection(){
-        val intent = Intent(Intent.ACTION_PICK)
-        intent.type = "image/*"
-        startActivityForResult(intent, 0);
+    private fun changePicture(){
 
-    }
+        val dialogBuilder: AlertDialog.Builder = AlertDialog.Builder(this)
+        val dialogView: View = LayoutInflater.from(this).inflate(R.layout.icons_dialog, null)
+        dialogBuilder.setView(dialogView)
+        dialogBuilder.setOnDismissListener { }
+        val alertDialog = dialogBuilder.create()
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == 0 && resultCode == Activity.RESULT_OK && data != null){
-            val uri = data.data
-            val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, uri)
+        val listProfiles = ArrayList<Profile>()
+        ImageUtils.getUserIcons().forEach {
+            val profile =  Profile()
+            profile.picture = it
+            listProfiles.add(profile)
         }
-    }
+        dialogView.icons_recycler.layoutManager = GridLayoutManager(this, 2);
+        var adapter = GenericRecyclerAdapter(listProfiles, R.layout.row_bank_layout)
+        adapter.listener = GenericRecyclerAdapter.GenericRecyclerListener {
 
+            selectedUserIcon = it.picture
+            DataBindingAdapters.setImageResourceByName(first_profile_image, it.picture)
+            alertDialog.dismiss()
+        }
+        dialogView.icons_recycler.adapter = adapter
+
+        alertDialog.show()
+    }
 }

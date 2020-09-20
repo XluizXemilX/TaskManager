@@ -1,6 +1,5 @@
 package com.example.taskmanager.classes;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.widget.ImageView;
@@ -16,6 +15,10 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.security.InvalidParameterException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 public class ImageUtils {
@@ -82,4 +85,24 @@ public class ImageUtils {
         void onSuccess(String uri);
         void onFailure(Exception ex);
     }
+
+    public static List<String> getUserIcons() {
+        return userIcons;
+    }
+
+    private static List<String> userIcons = Arrays.asList(
+            Constants.USER_ICON_PANDA,
+            Constants.USER_ICON_PANDA2,
+            Constants.USER_ICON_CHEMICAL,
+            Constants.USER_ICON_DEFAULT,
+            Constants.USER_ICON_DOCTOR_GIRL,
+            Constants.USER_ICON_DOCTOR_GUY,
+            Constants.USER_ICON_DUCK,
+            Constants.USER_ICON_GAME,
+            Constants.USER_ICON_MAN,
+            Constants.USER_ICON_WOMEN,
+            Constants.USER_ICON_POKEBALL,
+            Constants.USER_ICON_POLAR_BEAR,
+            Constants.USER_ICON_POLAR_BEAR2,
+            Constants.USER_ICON_TIGER);
 }

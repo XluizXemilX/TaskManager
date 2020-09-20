@@ -55,7 +55,8 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation 'com.google.code.gson:gson:2.8.6'
-    implementation 'com.appeaser.sublimepickerlibrary:sublimepickerlibrary:2.1.2'
+    implementation 'com.appeaser.sublimepickerlibrary:sublimepickerlibrary:2.1.2' // sublime picker library
+    implementation 'com.github.florent37:expansionpanel:1.2.4'// expandable layout library
 
 
 }

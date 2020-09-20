@@ -3,31 +3,28 @@ package com.example.taskmanager.parentUI
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.ArrayAdapter
 import androidx.appcompat.app.AlertDialog
-import com.example.taskmanager.parentUI.taskCreation.AddTaskActivity
-import com.example.taskmanager.classes.Chore
-import com.example.taskmanager.classes.SharedPrefsUtil
+import androidx.fragment.app.Fragment
 import com.example.taskmanager.R
+import com.example.taskmanager.classes.Chore
 import com.example.taskmanager.classes.Constants
 import com.example.taskmanager.classes.Profile
+import com.example.taskmanager.classes.SharedPrefsUtil
+import com.example.taskmanager.parentUI.taskCreation.AddTaskActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.fragment_chore.*
-import kotlinx.android.synthetic.main.fragment_jobs.*
 
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
-private lateinit var alertDialog: AlertDialog
-private lateinit var mAuth: FirebaseAuth
-private lateinit var refUsers: DatabaseReference
+private lateinit var refTasks: DatabaseReference
 
 
 /**
@@ -102,8 +99,8 @@ class ChoreFragment : Fragment() {
             return
 
         val listItems = arrayListOf<String>()
-        refUsers =FirebaseDatabase.getInstance().reference.child("account").child(SharedPrefsUtil.getInstance(context).get(Constants.CURRENT_ACCOUNT, "")).child("task")
-        val taskRef = refUsers
+        refTasks =FirebaseDatabase.getInstance().reference.child("account").child(SharedPrefsUtil.getInstance(context).get(Constants.CURRENT_ACCOUNT, "")).child("task")
+        val taskRef = refTasks
 
         postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -126,8 +123,9 @@ class ChoreFragment : Fragment() {
             }
         }
         taskRef.addListenerForSingleValueEvent(postListener as ValueEventListener)
+
     }
-    //onClick()
+
     //SharePrefUtil.getInstance(context).put(Constants.CURRENT_TASK, Chore::class.java, task)
 
 }

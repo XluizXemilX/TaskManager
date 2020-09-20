@@ -43,7 +43,7 @@
         tools:srcCompat="@drawable/user_default_icon" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/change_nickname_et"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="26dp"
@@ -63,9 +63,23 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="153dp"
         android:background="@drawable/blue_box"
-        android:text="Button"
+        android:text="SAVE"
         android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
+        app:layout_constraintTop_toBottomOf="@+id/change_nickname_et" />
+
+    <TextView
+        android:id="@+id/edit_profile_change_pic"
+        android:layout_width="51dp"
+        android:layout_height="34dp"
+        android:layout_marginTop="240dp"
+        android:background="@drawable/box"
+        android:elevation="3dp"
+        android:gravity="center"
+        android:text="edit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
