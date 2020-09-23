@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.taskmanager.R;
@@ -16,11 +17,11 @@ import java.util.List;
 public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
 
     private Context context;
-    private List<String> expandableListTitle;
-    private HashMap<String, List<String>> expandableListDetail;
+    private List<Profile> expandableListTitle;
+    private HashMap<Profile, List<Chore>> expandableListDetail;
 
-    public CustomExpandableListAdapter(Context context, List<String> expandableListTitle,
-                                       HashMap<String, List<String>> expandableListDetail) {
+    public CustomExpandableListAdapter(Context context, List<Profile> expandableListTitle,
+                                       HashMap<Profile, List<Chore>> expandableListDetail) {
         this.context = context;
         this.expandableListTitle = expandableListTitle;
         this.expandableListDetail = expandableListDetail;
@@ -40,15 +41,18 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
     @Override
     public View getChildView(int listPosition, final int expandedListPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
-        final String expandedListText = (String) getChild(listPosition, expandedListPosition);
+        final Chore chore = (Chore) getChild(listPosition, expandedListPosition);
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) this.context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = layoutInflater.inflate(R.layout.temp_list_layout, null);
+            convertView = layoutInflater.inflate(R.layout.row_tasks_layout, null);
         }
         TextView expandedListTextView = (TextView) convertView
-                .findViewById(R.id.temp_tv);
-        expandedListTextView.setText(expandedListText);
+                .findViewById(R.id.profile_nickname);
+        TextView expandedListTextDueDate = (TextView) convertView
+                .findViewById(R.id.dueDate_tv);
+        expandedListTextView.setText(chore.getTaskName());
+        expandedListTextDueDate.setText("Due: " + chore.getDueDate());
         return convertView;
     }
 
@@ -76,18 +80,24 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(int listPosition, boolean isExpanded,
                              View convertView, ViewGroup parent) {
-        String listTitle = (String) getGroup(listPosition);
+        Profile listTitle = (Profile) getGroup(listPosition);
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) this.context.
                     getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = layoutInflater.inflate(R.layout.list_title_group, null);
         }
         TextView listTitleTextView = (TextView) convertView
-                .findViewById(R.id.listTitle);
-        listTitleTextView.setTypeface(null, Typeface.BOLD);
-        listTitleTextView.setText(listTitle);
+                .findViewById(R.id.profile_nickname_title);
+        ImageView listTitleImage = (ImageView) convertView
+                .findViewById(R.id.profile_photo_title);
+        //listTitleTextView.setTypeface(null, Typeface.BOLD);
+        listTitleTextView.setText(listTitle.getNickname());
+        DataBindingAdapters.setImageResourceByName(listTitleImage, listTitle.getPicture());
+
+
         return convertView;
     }
+
 
     @Override
     public boolean hasStableIds() {

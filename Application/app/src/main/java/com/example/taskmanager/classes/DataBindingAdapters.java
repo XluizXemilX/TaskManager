@@ -11,16 +11,16 @@ import com.example.taskmanager.R;
 
 public class DataBindingAdapters {
 
-    //@BindingAdapter("android:src")
-    public static void setImageUri(ImageView view, String imageUri) {
-        if (imageUri == null) {
-            view.setImageURI(null);
-        } else {
-            view.setImageURI(Uri.parse(imageUri));
-        }
-    }
+   @BindingAdapter("android:src")
+   public static void setImageUri(ImageView view, String imageUri) {
+       if (imageUri == null) {
+           view.setImageURI(null);
+       } else {
+           view.setImageURI(Uri.parse(imageUri));
+       }
+   }
 
-    //@BindingAdapter("android:src")
+    @BindingAdapter("android:src")
     public static void setImageUri(ImageView view, Uri imageUri) {
         view.setImageURI(imageUri);
     }

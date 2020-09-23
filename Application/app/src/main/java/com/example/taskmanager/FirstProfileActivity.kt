@@ -24,7 +24,7 @@ class FirstProfileActivity : AppCompatActivity() {
 
 
     private lateinit var refUsers: DatabaseReference
-    private lateinit var selectedUserIcon: String
+    private  var selectedUserIcon: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,8 +70,8 @@ class FirstProfileActivity : AppCompatActivity() {
             userHashMap["profilePin"] = profilePin
             userHashMap["type"] = Constants.PARENT
             userHashMap["picture"] = selectedUserIcon ?: Constants.USER_ICON_DEFAULT
-            //userHashMap["bank"]=
-            //userHashMap["balance]=
+            userHashMap["bank"]= "No Bank"
+            userHashMap["balance"]= "$0.00"
             val pushRef = refUsers.push()
             val key = pushRef.key
             pushRef.setValue(userHashMap)

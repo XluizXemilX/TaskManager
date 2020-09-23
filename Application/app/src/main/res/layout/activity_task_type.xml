@@ -33,9 +33,11 @@
 
     <LinearLayout
         android:id="@+id/chore_btn"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
         android:layout_marginTop="28dp"
+        android:layout_marginEnd="40dp"
         android:background="@drawable/standard_box"
         android:elevation="3dp"
         android:orientation="vertical"
@@ -69,9 +71,11 @@
 
     <LinearLayout
         android:id="@+id/job_btn"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="40dp"
         android:background="@drawable/standard_box"
         android:elevation="3dp"
         android:orientation="vertical"

@@ -3,6 +3,7 @@ package com.example.taskmanager
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.TextUtils
 import android.widget.Toast
 import com.example.taskmanager.classes.Constants
 import com.example.taskmanager.classes.SharedPrefsUtil
@@ -12,6 +13,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_register.*
 import kotlinx.android.synthetic.main.pin_validation.view.*
+import org.w3c.dom.Text
 
 
 class RegisterActivity : AppCompatActivity() {
@@ -38,22 +40,25 @@ class RegisterActivity : AppCompatActivity() {
         val password: String = password_register.text.toString()    //password edittext value
         val dob: String = DOB_register.text.toString()              // date of birth edittext value
 
-        if (firstName == "") {
+        if (TextUtils.isEmpty(firstName)) {
             firstName_register.error = "First Name require"
             Toast.makeText(this@RegisterActivity, "please write First Name.", Toast.LENGTH_SHORT) // checks if first name is empty
                 .show()
-        } else if (lastName == "") {
+        } else if (TextUtils.isEmpty(lastName)) {
             lastName_register.error = "LastName require"
             Toast.makeText(this@RegisterActivity, "please write Last Name.", Toast.LENGTH_SHORT) // checks if last name is empty
                 .show()
-        } else if (email == "") {
+        } else if (TextUtils.isEmpty(email)) {
             email_register.error = "Email require"
             Toast.makeText(this@RegisterActivity, "please write email.", Toast.LENGTH_SHORT).show() //checks if email is empty
-        } else if (password == "") {
+        } else if (TextUtils.isEmpty(password)) {
             password_register.error = "Password require"
             Toast.makeText(this@RegisterActivity, "please write password", Toast.LENGTH_SHORT) //checks if password is empty
                 .show()
-        } else if (dob == "") {
+        } else if(password.length < 6){
+            password_register.error = "Password requires 6-15 characters"
+
+        }else if (TextUtils.isEmpty(dob)) {
             DOB_register.error = "Date of birth require"
             Toast.makeText(this@RegisterActivity, "please enter Date of Birth", Toast.LENGTH_SHORT) //checks if date of birth is empty
                 .show()
@@ -65,7 +70,6 @@ class RegisterActivity : AppCompatActivity() {
                         refUsers = FirebaseDatabase.getInstance().reference.child("account").child(firebaseUserId)
 
                         val userHashMap = HashMap<String, Any>()  // holds user data
-                        userHashMap["user"] = firstName + "_" +firebaseUserId
                         userHashMap["firstname"] = firstName
                         userHashMap["lastname"] = lastName
                         userHashMap["email"] = email

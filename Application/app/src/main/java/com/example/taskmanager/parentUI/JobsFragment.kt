@@ -10,15 +10,15 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import com.example.taskmanager.classes.Chore
-import com.example.taskmanager.classes.SharedPrefsUtil
 import com.example.taskmanager.R
-import com.example.taskmanager.classes.Constants
-import com.example.taskmanager.classes.Profile
+import com.example.taskmanager.classes.*
 import com.example.taskmanager.parentUI.taskCreation.AddTaskActivity
+import com.example.taskmanager.parentUI.taskCreation.TaskCompleted
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_switch_accounts.*
+import kotlinx.android.synthetic.main.fragment_chore.*
 import kotlinx.android.synthetic.main.fragment_jobs.*
+import java.util.HashMap
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -27,7 +27,7 @@ private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 private lateinit var alertDialog: AlertDialog
 
-private lateinit var refUsers: DatabaseReference
+private lateinit var refTasks: DatabaseReference
 /**
  * A simple [Fragment] subclass.
  * Use the [JobsFragment.newInstance] factory method to
@@ -37,6 +37,7 @@ class JobsFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    val expandableListDetail = HashMap<Profile, ArrayList<Chore>>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,14 +72,18 @@ class JobsFragment : Fragment() {
                 ) // send user to create a house if task is completed
             startActivity(intent)
         }
+        expandableListView_job.setOnChildClickListener { _, _, groupPosition, childPosition, _ ->
+
+            val profile  =expandableListDetail.keys.toList().get(groupPosition)
+            val chores =expandableListDetail.get(profile)
+            val selectedChore = chores!!.get(childPosition)
+            SharedPrefsUtil.getInstance(context).put(Constants.CURRENT_TASK, Chore::class.java, selectedChore)
+            val intent = Intent(context, TaskCompleted::class.java)
+            startActivity(intent)
+            true
+        }
     }
 
-
-    override fun onDestroy() {
-        postListener?.let { refUsers.removeEventListener(it) }
-
-        super.onDestroy()
-    }
 
     companion object {
         /**
@@ -105,24 +110,34 @@ class JobsFragment : Fragment() {
 
         if (postListener != null)
             return
-        val listItems = arrayListOf<String>()
-        refUsers =FirebaseDatabase.getInstance().reference.child("account").child(SharedPrefsUtil.getInstance(context).get(Constants.CURRENT_ACCOUNT, "")).child("task")
-        val taskRef = refUsers
+        refTasks = FirebaseDatabase.getInstance().reference.child("account").child(SharedPrefsUtil.getInstance(context).get(Constants.CURRENT_ACCOUNT, "")).child("task")
+
+        val expandableListTitle = HashSet<Profile>()
 
         postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if(dataSnapshot.exists()){
-                    listItems.clear()
+                    expandableListDetail.clear()
                     for (e in dataSnapshot.children){
+
                         val chore = e.getValue(Chore::class.java)
-                        if(chore!!.type == Constants.TYPE_JOB) {
-                            listItems.add(chore.taskName)
+
+                        if(chore!!.type == Constants.TYPE_JOB && chore.status == Constants.STATUS_INCOMPLETE) {
+                            val profile = Profile(chore.assignUser, chore.userPhoto)
+                            expandableListTitle.add(profile)
+
+                            var taskList = expandableListDetail.get(profile)
+                            if (taskList == null) {
+                                taskList =  ArrayList(0)
+                                expandableListDetail.put(profile, taskList)
+                            }
+
+                            taskList.add(chore)
                         }
                     }
 
-                    val adapter = ArrayAdapter(context!!, android.R.layout.simple_list_item_1, listItems)
-                    listview_job.adapter = adapter
-
+                    val expandableListAdapter = CustomExpandableListAdapter(context!!, expandableListTitle.toList(), expandableListDetail as  HashMap<Profile, List<Chore>> )
+                    expandableListView_job.setAdapter(expandableListAdapter)
                 }
             }
 
@@ -132,6 +147,6 @@ class JobsFragment : Fragment() {
 
             }
         }
-        taskRef.addValueEventListener(postListener as ValueEventListener)
+        refTasks.addListenerForSingleValueEvent(postListener as ValueEventListener)
     }
 }

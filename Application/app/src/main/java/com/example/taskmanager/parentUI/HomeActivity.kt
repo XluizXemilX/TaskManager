@@ -17,9 +17,10 @@ import com.example.taskmanager.SwitchProfileActivity
 import com.example.taskmanager.R
 import com.example.taskmanager.SplashScreen
 import com.example.taskmanager.classes.Constants
+import com.example.taskmanager.classes.DataBindingAdapters
 import com.example.taskmanager.classes.Profile
 import com.example.taskmanager.classes.SharedPrefsUtil
-import com.example.taskmanager.parentMenuDrawer.SettingsActivity
+import com.example.taskmanager.parentMenuDrawer.settings.SettingsActivity
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.content_main.*
@@ -45,6 +46,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         navView = findViewById(R.id.nav_view)
 
         bar_title.text = profile.nickname
+        DataBindingAdapters.setImageResourceByName(profile_icon_toolbar,profile.picture)
 
         val toggle = ActionBarDrawerToggle(
             this, drawerLayout, toolbar, 0, 0

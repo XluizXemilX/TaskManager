@@ -69,7 +69,7 @@ class ProfileActivity : AppCompatActivity() {
                 }.addOnFailureListener {
                     Toast.makeText(
                         this@ProfileActivity,
-                        "Error Message: Could not complete the action, try again or later.",
+                        "Error Message: Could not complete the action, try again later.",
                         Toast.LENGTH_SHORT
                     ).show()
                 }

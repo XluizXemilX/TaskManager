@@ -1,5 +1,6 @@
 package com.example.taskmanager.parentUI
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -125,6 +126,8 @@ class ReportsFragment : Fragment(), GenericRecyclerAdapter.GenericRecyclerListen
 
     override fun onClick(d: TaskReportCard?) {
         SharedPrefsUtil.getInstance(context).put(Constants.CURRENT_TASK_PROFILE, d!!.profile)
+        val intent= Intent(context, TaskListReport::class.java)
+        startActivity(intent)
 
     }
 }

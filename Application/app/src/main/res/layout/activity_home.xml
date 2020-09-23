@@ -19,11 +19,17 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="#FCFBFB"
-        app:itemIconTint="#5EAFC5"
-        android:fitsSystemWindows="true">
+        android:background="@color/colorWhiteBackground"
+        android:fitsSystemWindows="true"
+        app:itemIconTint="#5EAFC5">
 
 
+        <View
+            android:id="@+id/divider6"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:background="?attr/listChoiceBackgroundIndicator"
+            android:backgroundTint="@color/colorWhiteBackground" />
     </com.google.android.material.navigation.NavigationView>
 
 

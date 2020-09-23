@@ -1,6 +1,7 @@
 package com.example.taskmanager.classes;
 
 import java.util.Map;
+import java.util.Objects;
 
 public class Profile {
     private String nickname;
@@ -11,6 +12,13 @@ public class Profile {
     private String picture;
     private String bank;
     private String balance;
+
+    public Profile() {}
+
+    public Profile(String nickname, String picture) {
+        this.nickname = nickname;
+        this.picture = picture;
+    }
 
     public String getBalance() {
         return balance;
@@ -76,6 +84,19 @@ public class Profile {
         this.picture = picture;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Profile profile = (Profile) o;
+        return nickname.equals(profile.nickname);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nickname);
+    }
+
     public void fromMap(Map<String, String> map){
         this.nickname = map.get("nickname");
         this.type = map.get("type");
@@ -83,5 +104,7 @@ public class Profile {
         this.picture = map.get("picture");
         this.profilePin = map.get("profilePin");
         this.id = map.get("id");
+        this.balance = map.get("balance");
+        this.bank = map.get("bank");
     }
 }

@@ -14,20 +14,20 @@
     </data>
 
     <androidx.cardview.widget.CardView
-        android:layout_width="180dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="0dp"
-        android:layout_marginBottom="4dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginRight="4dp"
         android:layout_marginStart="4dp"
-        app:cardElevation="3dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginBottom="4dp"
+        android:theme="@android:style/Theme.Light.NoTitleBar"
         app:cardCornerRadius="5dp"
+        app:cardElevation="3dp"
         app:cardPreventCornerOverlap="false"
         app:cardUseCompatPadding="true"
-        app:layout_columnWeight="1"
-        android:theme="@android:style/Theme.Light.NoTitleBar">
+        app:layout_columnWeight="1">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -37,18 +37,34 @@
             android:paddingStart="5dp"
             android:paddingEnd="5dp">
 
-            <ImageView
-                android:id="@+id/profile_photo"
-                android:layout_width="55dp"
-                android:layout_height="51dp"
-                android:layout_marginTop="4dp"
-                app:srcCompat="@drawable/chores_icon" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/profile_photo"
+                    android:layout_width="55dp"
+                    android:layout_height="51dp"
+                    android:layout_marginTop="4dp"
+                    app:srcCompat="@drawable/chores_icon" />
+
+                <TextView
+                    android:id="@+id/task_menu_dots"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="5dp"
+                    android:gravity="center|end"
+                    android:text="&#8942;"
+                    android:textAppearance="?android:textAppearanceLarge" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/profile_nickname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text='@{model.taskName, default="LUIS EMIL"}'
+                android:text='@{"", default="LUIS EMIL"}'
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textSize="20sp" />
 
@@ -56,14 +72,15 @@
                 android:id="@+id/divider5"
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
-                android:background="?attr/listChoiceBackgroundIndicator" />
+                android:background="?attr/listChoiceBackgroundIndicator"
+                android:backgroundTint="@color/colorWhiteBackground" />
 
             <TextView
-                android:id="@+id/money_tv"
+                android:id="@+id/dueDate_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text='@{model.dueDate, default="$0.00"}' />
+                android:gravity="center|right"
+                android:text='@{"", default="$0.00"}' />
 
         </LinearLayout>
 

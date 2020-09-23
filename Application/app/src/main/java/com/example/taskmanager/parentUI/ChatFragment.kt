@@ -58,7 +58,7 @@ class ChatFragment : Fragment() {
                 message_chat_et.text.toString(),
                 profile.picture
             )
-            refMessages.child("Messages")
+            refMessages.child("messages")
                 .push().setValue(message)
             message_chat_et.setText("")
         })

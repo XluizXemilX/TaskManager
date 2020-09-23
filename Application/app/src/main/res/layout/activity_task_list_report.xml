@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:backgroundTint="@color/colorWhiteBackground"
+    android:orientation="vertical"
+    tools:context=".parentUI.TaskListReport">
+
+    <TextView
+        android:id="@+id/textView40"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/colorAppBlue"
+        android:text="Upcoming"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp" />
+
+    <ListView
+        android:id="@+id/task_upcoming_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </ListView>
+
+    <TextView
+        android:id="@+id/textView41"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#A48BC34A"
+        android:text="Completed"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp" />
+
+    <ListView
+        android:id="@+id/task_completed_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/textView42"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#A3F44336"
+        android:text="Failed"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp" />
+
+    <ListView
+        android:id="@+id/task_failed_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>

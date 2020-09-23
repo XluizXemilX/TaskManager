@@ -61,20 +61,23 @@
         app:layout_constraintTop_toBottomOf="@+id/task_name_editText" />
 
     <LinearLayout
-        android:layout_width="362dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="26dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="26dp"
+        android:layout_marginBottom="15dp"
         android:background="@drawable/standard_box"
         android:elevation="3dp"
         android:gravity="center"
         android:orientation="vertical"
         android:paddingTop="15dp"
+        app:layout_constraintBottom_toTopOf="@+id/task_detail_next_btn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.666"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/task_description_et">
+        app:layout_constraintTop_toBottomOf="@+id/task_description_et"
+        app:layout_constraintVertical_bias="0.0">
 
         <TextView
             android:id="@+id/textView16"

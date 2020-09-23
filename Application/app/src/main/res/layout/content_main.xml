@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:android1="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:backgroundTint="@color/colorWhiteBackground"
@@ -24,17 +25,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingStart="110dp"
-                android:paddingEnd="120dp">
+                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/bar_title"
                     style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="262dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:maxLines="1"
                     android:textColor="#5EAFC5"
                     android:textSize="24sp" />
+
+                <ImageView
+                    android:id="@+id/profile_icon_toolbar"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="1" />
             </LinearLayout>
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
@@ -52,7 +59,6 @@
         android:id="@+id/bottom_nav_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:background="#000000"
         app:itemIconTint="#fff"
         app:menu="@menu/nav_bottom_menu" />

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.taskmanager">
+
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
@@ -11,7 +12,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".parentUI.taskCreation.TaskCompleted"></activity>
+        <activity android:name=".parentUI.taskCreation.ChangeInfoActivity"></activity>
+        <activity android:name=".parentMenuDrawer.settings.ManageHouse" />
+        <activity android:name=".parentUI.TaskListReport" />
+        <activity android:name=".parentUI.taskCreation.TaskCompleted" />
         <activity android:name=".parentUI.taskCreation.TaskSettingsActivity" />
         <activity android:name=".parentUI.taskCreation.AssignTaskActivity" />
         <activity android:name=".parentUI.taskCreation.DetailTaskActivity" />
@@ -19,14 +23,16 @@
         <activity android:name=".parentUI.taskCreation.AddTaskActivity" />
         <activity android:name=".AddProfileActivity" />
         <activity android:name=".SwitchProfileActivity" />
-        <activity android:name=".parentMenuDrawer.SettingsActivity" />
+        <activity android:name=".parentMenuDrawer.settings.SettingsActivity" />
         <activity android:name=".parentMenuDrawer.BankAccountActivity" />
         <activity android:name=".parentMenuDrawer.ProfileActivity" />
         <activity android:name=".FirstProfileActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".MainLoginActivity" />
         <activity android:name=".RegisterActivity" />
-        <activity android:name=".parentUI.HomeActivity" android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name=".parentUI.HomeActivity"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".SplashScreen"
             android:theme="@style/AppTheme.NoActionBar">

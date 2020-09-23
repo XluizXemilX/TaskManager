@@ -17,6 +17,15 @@ public class Chore {
     private String time;
     private String startDate;
     private String pay;
+    private String pictureProof;
+
+    public String getPictureProof() {
+        return pictureProof;
+    }
+
+    public void setPictureProof(String pictureProof) {
+        this.pictureProof = pictureProof;
+    }
 
     public String getPay() {
         return pay;
