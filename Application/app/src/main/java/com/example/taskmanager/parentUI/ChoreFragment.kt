@@ -139,6 +139,7 @@ class ChoreFragment : Fragment() {
                     for (e in dataSnapshot.children){
 
                         val chore = e.getValue(Chore::class.java)
+                        chore!!.id = e.key
 
                         if(chore!!.type == Constants.TYPE_CHORE && chore.status == Constants.STATUS_INCOMPLETE) {
                             val profile = Profile(chore.assignUser, chore.userPhoto)

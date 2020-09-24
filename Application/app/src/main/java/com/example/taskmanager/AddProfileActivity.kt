@@ -95,7 +95,7 @@ class AddProfileActivity : AppCompatActivity() {
             userHashMap["type"] = profile_type_spn.selectedItem.toString()
             userHashMap["picture"] = selectedUserIcon ?: Constants.USER_ICON_DEFAULT
             userHashMap["bank"]= "No Bank"
-            userHashMap["balance"] = "$0.00"
+            userHashMap["balance"] = "0.00"
             val pushRef = refUsers.push()
             val key = pushRef.key
             pushRef.setValue(userHashMap)

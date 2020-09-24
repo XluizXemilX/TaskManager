@@ -1,17 +1,17 @@
 package com.example.taskmanager.parentUI
 
+import android.app.Activity
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.taskmanager.R
-import com.example.taskmanager.classes.Constants
-import com.example.taskmanager.classes.Message
-import com.example.taskmanager.classes.Profile
-import com.example.taskmanager.classes.SharedPrefsUtil
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.example.taskmanager.classes.*
+import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.fragment_chat.*
 
 
@@ -45,13 +45,22 @@ class ChatFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        loadMessages()
         return inflater.inflate(R.layout.fragment_chat, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val profile = SharedPrefsUtil.getInstance(context).get(Constants.CURRENT_PROFILE, Profile::class.java, null)
-        refMessages = FirebaseDatabase.getInstance().reference.child("account").child(SharedPrefsUtil.getInstance(context).get(Constants.CURRENT_ACCOUNT, ""))
+        val profile = SharedPrefsUtil.getInstance(context).get(
+            Constants.CURRENT_PROFILE,
+            Profile::class.java,
+            null
+        )
+        refMessages = FirebaseDatabase.getInstance().reference.child("account").child(
+            SharedPrefsUtil.getInstance(
+                context
+            ).get(Constants.CURRENT_ACCOUNT, "")
+        )
         send_chat_btn.setOnClickListener(View.OnClickListener {
             val message = Message(
                 profile.nickname,
@@ -59,10 +68,68 @@ class ChatFragment : Fragment() {
                 profile.picture
             )
             refMessages.child("messages")
-                .push().setValue(message)
-            message_chat_et.setText("")
+                .push().setValue(message).addOnSuccessListener {
+
+                    message.isMine = true
+                    messageList.add(message)
+                    val messageRecyclerAdapter = GenericRecyclerAdapter<Message>(
+                        messageList,
+                        R.layout.row_chat_layout
+                    )
+                    chat_recycler_view.adapter = messageRecyclerAdapter
+                    message_chat_et.setText("")
+                    hideKeyboard()
+                }
+
+
         })
     }
+
+    val messageList = ArrayList<Message>()
+    private fun loadMessages(){
+        val currentProfile = SharedPrefsUtil.getInstance(context).get(Constants.CURRENT_PROFILE, Profile::class.java, null)
+        val refMessage = FirebaseDatabase.getInstance().reference.child("account").child(
+            SharedPrefsUtil.getInstance(
+                context
+            ).get(Constants.CURRENT_ACCOUNT, "")
+        )
+            .child("messages")
+        val expandableListTitle = HashSet<Profile>()
+
+       val postListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if(dataSnapshot.exists()) {
+                    messageList.clear()
+                    for (e in dataSnapshot.children) {
+                        val message = e.getValue(Message::class.java)
+
+                        message!!.isMine = message!!.name == currentProfile.nickname
+                        messageList.add(message!!)
+                    }
+                    val messageRecyclerAdapter = GenericRecyclerAdapter<Message>(
+                        messageList,
+                        R.layout.row_chat_layout
+                    )
+                    chat_recycler_view.layoutManager = LinearLayoutManager(context)
+                    chat_recycler_view.adapter = messageRecyclerAdapter
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Getting Post failed, log a message
+                Log.w("TAG", "loadMessages:onCancelled", databaseError.toException())
+
+            }
+        }
+        refMessage.addListenerForSingleValueEvent(postListener)
+    }
+
+    private fun hideKeyboard() {
+        val imm: InputMethodManager =
+            activity!!.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        if (imm.isActive()) imm.hideSoftInputFromWindow(view!!.windowToken, 0)
+    }
+
 
     companion object {
         /**

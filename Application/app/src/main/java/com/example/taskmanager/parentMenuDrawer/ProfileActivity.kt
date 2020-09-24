@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
@@ -12,7 +13,10 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.taskmanager.R
 import com.example.taskmanager.classes.*
 import com.example.taskmanager.parentUI.HomeActivity
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_first_profile.*
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_profile.*
@@ -61,10 +65,13 @@ class ProfileActivity : AppCompatActivity() {
                 .addOnSuccessListener {
                     refProfile.nickname = nickname
                     refProfile.picture = selectedUserIcon
+                    updateAll()
                     SharedPrefsUtil.getInstance(this).put(Constants.CURRENT_PROFILE, Profile::class.java, refProfile)
                     Toast.makeText(this, "Changes save.", Toast.LENGTH_LONG).show()
-                    val intent = Intent(this, HomeActivity::class.java)
+
+                    overridePendingTransition(0, 0)
                     startActivity(intent)
+                    overridePendingTransition(0, 0)
 
                 }.addOnFailureListener {
                     Toast.makeText(
@@ -74,6 +81,51 @@ class ProfileActivity : AppCompatActivity() {
                     ).show()
                 }
         }
+    }
+
+    private fun updateAll(){
+        val refTask = FirebaseDatabase.getInstance().reference.child("account").child(
+            SharedPrefsUtil.getInstance(this).get(
+                Constants.CURRENT_ACCOUNT, "")).child("task")
+        val refMessages =FirebaseDatabase.getInstance().reference.child("account").child(
+            SharedPrefsUtil.getInstance(this).get(
+                Constants.CURRENT_ACCOUNT, "")).child("messages")
+
+        val postListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if(dataSnapshot.exists()){
+
+                    for (e in dataSnapshot.children) {
+                        val task = e.getValue(Chore::class.java)
+                        if(task!!.assignUser == refProfile.nickname){
+                            task.id = e.key
+                            val taskHashMap = HashMap<String, String>()
+                            taskHashMap["userPhoto"] = refProfile.picture
+                            refTask.child(task.id).updateChildren(taskHashMap.toMap())
+                        }
+                    }
+
+                    for (e in dataSnapshot.children) {
+                        val message = e.getValue(Message::class.java)
+                        if(message!!.name == refProfile.nickname){
+                            message.id = e.key
+                            val messageHashMap = HashMap<String, String>()
+                            messageHashMap["picture"] = refProfile.picture
+                            refMessages.child(message.id).updateChildren(messageHashMap.toMap())
+                        }
+                    }
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Getting Post failed, log a message
+                Log.w("TAG", "updateTaskList:onCancelled", databaseError.toException())
+            }
+
+        }
+        refTask.addListenerForSingleValueEvent(postListener)
+        refMessages.addListenerForSingleValueEvent(postListener)
+
     }
 
     private fun changePicture(){

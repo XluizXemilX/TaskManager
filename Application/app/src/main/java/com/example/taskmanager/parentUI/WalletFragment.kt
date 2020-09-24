@@ -63,7 +63,7 @@ class WalletFragment : Fragment(), GenericRecyclerAdapter.GenericRecyclerListene
             getWallets()
         }
         else{
-            balance_tv.text = profile.balance
+            balance_tv.text =  "$" + profile.balance
         }
 
     }

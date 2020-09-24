@@ -154,8 +154,9 @@ class TaskSettingsActivity : AppCompatActivity() , SublimePickerDialogFragment.I
         userHashMap["dueDate"] = taskRef.dueDate
         userHashMap["photoRequired"] = taskRef.photoRequired
         userHashMap["verificationRequire"] = taskRef.verificationRequire
-        userHashMap["pay"] = "$" + taskRef.pay
-
+        if(!TextUtils.isEmpty(taskRef.pay)) {
+            userHashMap["pay"] = taskRef.pay
+        }
         if (!TextUtils.isEmpty(imageUrl)) {
             userHashMap["picture"] = imageUrl
         }

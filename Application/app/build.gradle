@@ -57,6 +57,5 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'com.appeaser.sublimepickerlibrary:sublimepickerlibrary:2.1.2' // sublime picker library
     implementation 'com.github.florent37:expansionpanel:1.2.4'// expandable layout library
-
-
+    implementation 'com.squareup.picasso:picasso:2.71828'
 }

@@ -1,10 +1,30 @@
 package com.example.taskmanager.classes;
 
+import java.util.Calendar;
+
 public class Message {
     private String id;
     private String name;
     private String text;
     private String picture;
+    private String date = DateUtils.getIso8601StringFromDate(Calendar.getInstance().getTime());
+    private transient boolean isMine;
+
+    public boolean isMine() {
+        return isMine;
+    }
+
+    public void setMine(boolean mine) {
+        isMine = mine;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
 
     public Message(){
 

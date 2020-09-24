@@ -11,6 +11,7 @@ public class Constants {
     public final static String STATUS_INCOMPLETE = "Incomplete";
     public final static String STATUS_COMPLETE = "Complete";
     public final static String STATUS_FAILED = "Failed";
+    public final static String STATUS_HOLD = "HOLD";
     public final static int REQUEST_CODE_CAMERA = 42;
     public final static int REQUEST_CODE_GALLERY = 43;
     public final static String TASK_IMAGE_DATA = "TASK_IMAGE_DATA";
