@@ -84,6 +84,7 @@ class RegisterActivity : AppCompatActivity() {
                                         Intent(this@RegisterActivity, FirstProfileActivity::class.java) // send user to create a house if task is completed
                                     startActivity(intent)
 
+
                                 }
                                 else{
 

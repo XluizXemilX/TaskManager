@@ -16,6 +16,7 @@ class MainLoginActivity : AppCompatActivity() {
                 Intent(this@MainLoginActivity, RegisterActivity::class.java)  // when button press send user to  RegisterActivity
             startActivity(intent)
 
+
         }
 
         loginIntoHouse_btn.setOnClickListener {

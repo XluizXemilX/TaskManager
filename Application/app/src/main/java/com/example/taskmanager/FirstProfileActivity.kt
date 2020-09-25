@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.taskmanager.classes.*
+import com.example.taskmanager.parentMenuDrawer.settings.TutorialContainerActivity
 import com.example.taskmanager.parentUI.HomeActivity
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -85,7 +86,7 @@ class FirstProfileActivity : AppCompatActivity() {
                     val intent =
                         Intent(
                             this@FirstProfileActivity,
-                            HomeActivity::class.java
+                            TutorialContainerActivity::class.java
                         ) // send user to create a house if task is completed
                     startActivity(intent)
 

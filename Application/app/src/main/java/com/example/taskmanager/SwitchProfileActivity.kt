@@ -90,6 +90,7 @@ class SwitchProfileActivity :  AppCompatActivity(), GenericRecyclerAdapter.Gener
                     HomeActivity::class.java
                 ) // send user to create a house if task is completed
             startActivity(intent)
+            finish()
         }
 
     }
